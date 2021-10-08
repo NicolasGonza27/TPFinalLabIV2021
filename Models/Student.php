@@ -3,7 +3,7 @@
 
     use Models\Person as Person;
 
-    class Student extends Person
+    class Student
     {
         private $studentId;
         private $careerId;
@@ -17,11 +17,7 @@
         private $phoneNumber;
         private $active;
 
-        /**
-         * Constructor de clase Student
-         */
-        public function __constant($studentId = null, $careerId = null, $firstName = null, $lastName = null, $dni = null,
-         $fileNumber = null, $gender = null, $birthDate = null, $email = null, $phoneNumber = null, $active = null)
+        public function __construct($studentId = null, $careerId = null, $firstName = null, $lastName = null, $dni = null, $fileNumber = null, $gender = null, $birthDate = null, $email = null, $phoneNumber = null, $active = null)
         {
             $this->studentId = $studentId;
             $this->careerId = $careerId;
