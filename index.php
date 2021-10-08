@@ -15,11 +15,11 @@
 
 	session_start();
 
-	//require_once(VIEWS_PATH."header.php");
+	require_once(VIEWS_PATH."header.php");
 
-	//Router::Route(new Request());
+	Router::Route(new Request());
 
-	//require_once(VIEWS_PATH."footer.php");
+	require_once(VIEWS_PATH."footer.php");
 
 	
 
@@ -37,14 +37,14 @@
 	// var_dump($arrayToDecode[0]["firstName"]);
 
 
-	use API\ApiController as ApiController;
-	use Models\Student as Student;
+	// use API\ApiStudentController as ApiStudentController;
+	// use Models\Student as Student;
 
-	$ApiController = new ApiController();
-	$arrayStudents = $ApiController->GetAll();
+	// $apiController = new ApiStudentController();
+	// $arrayStudents = $apiController->GetAll();
+	// $student = $apiController->GetOne(5);
 
-	foreach ($arrayStudents as $student) {
-		$rta = $student;
-		var_dump($rta->getFirstName());
-	}
+	// foreach ($arrayStudents as $student) {
+	// 	var_dump($student);
+	// }
 ?>
