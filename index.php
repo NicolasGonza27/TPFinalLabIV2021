@@ -6,6 +6,7 @@
 	
 	require "Config/Autoload.php";
 	require "Config/Config.php";
+	require "Config/Constants.php";
 
 	use Config\Autoload as Autoload;
 	use Config\Router 	as Router;
@@ -39,12 +40,16 @@
 
 	// use API\ApiStudentController as ApiStudentController;
 	// use Models\Student as Student;
+	// use Models\Admin as Admin;
 
 	// $apiController = new ApiStudentController();
 	// $arrayStudents = $apiController->GetAll();
 	// $student = $apiController->GetOne(5);
 
+	// $admin = new Admin("123456", "Name", "Last", "43312532", "email@gmail.com", true);
+
 	// foreach ($arrayStudents as $student) {
-	// 	var_dump($student);
+		// var_dump($student);
+		// var_dump($admin);
 	// }
 ?>
