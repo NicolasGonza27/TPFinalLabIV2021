@@ -1,21 +1,21 @@
 <?php
     namespace Models;
 
-    use Models\Person as Person;
+    use Models\User as User;
 
-    class Student
+    class Student extends User
     {
         private $studentId;
         private $careerId;
-        private $firstName;
-        private $lastName;
-        private $dni;
+        // private $firstName;
+        // private $lastName;
+        // private $dni;
         private $fileNumber;
         private $gender;
         private $birthDate;
-        private $email;
+        // private $email;
         private $phoneNumber;
-        private $active;
+        // private $active;
 
         public function __construct($studentId = null, $careerId = null, $firstName = null, $lastName = null, $dni = null, $fileNumber = null, $gender = null, $birthDate = null, $email = null, $phoneNumber = null, $active = null)
         {
@@ -30,6 +30,7 @@
             $this->email = $email;
             $this->phoneNumber = $phoneNumber;
             $this->active = $active;
+            $this->tipeUser = TIPE_USER;
         }
 
         /**
@@ -68,66 +69,6 @@
         public function setCareerId($careerId)
         {
                 $this->careerId = $careerId;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of firstName
-         */ 
-        public function getFirstName()
-        {
-                return $this->firstName;
-        }
-
-        /**
-         * Set the value of firstName
-         *
-         * @return  self
-         */ 
-        public function setFirstName($firstName)
-        {
-                $this->firstName = $firstName;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of lastName
-         */ 
-        public function getLastName()
-        {
-                return $this->lastName;
-        }
-
-        /**
-         * Set the value of lastName
-         *
-         * @return  self
-         */ 
-        public function setLastName($lastName)
-        {
-                $this->lastName = $lastName;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of dni
-         */ 
-        public function getDni()
-        {
-                return $this->dni;
-        }
-
-        /**
-         * Set the value of dni
-         *
-         * @return  self
-         */ 
-        public function setDni($dni)
-        {
-                $this->dni = $dni;
 
                 return $this;
         }
@@ -193,26 +134,6 @@
         }
 
         /**
-         * Get the value of email
-         */ 
-        public function getEmail()
-        {
-                return $this->email;
-        }
-
-        /**
-         * Set the value of email
-         *
-         * @return  self
-         */ 
-        public function setEmail($email)
-        {
-                $this->email = $email;
-
-                return $this;
-        }
-
-        /**
          * Get the value of phoneNumber
          */ 
         public function getPhoneNumber()
@@ -228,26 +149,6 @@
         public function setPhoneNumber($phoneNumber)
         {
                 $this->phoneNumber = $phoneNumber;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of active
-         */ 
-        public function getActive()
-        {
-                return $this->active;
-        }
-
-        /**
-         * Set the value of active
-         *
-         * @return  self
-         */ 
-        public function setActive($active)
-        {
-                $this->active = $active;
 
                 return $this;
         }
