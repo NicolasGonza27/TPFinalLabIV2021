@@ -5,6 +5,7 @@
 
     class Admin extends User
     {
+        private $adminId;
         private $password;
         // private $firstName;
         // private $lastName;
@@ -12,8 +13,9 @@
         // private $email;
         // private $active;
 
-        public function __construct($password = null, $firstName = null, $lastName = null, $dni = null, $email = null, $active = null)
+        public function __construct($adminId= null, $password = null, $firstName = null, $lastName = null, $dni = null, $email = null, $active = null)
         {
+            $this->adminId = $adminId;
             $this->password = $password;
             $this->firstName = $firstName;
             $this->lastName = $lastName;
@@ -21,6 +23,26 @@
             $this->email = $email;
             $this->active = $active;
             $this->tipeUser = TIPE_ADMIN;
+        }
+
+        /**
+         * Get the value of adminId
+         */ 
+        public function getAdminId()
+        {
+                return $this->adminId;
+        }
+
+        /**
+         * Set the value of adminId
+         *
+         * @return  self
+         */ 
+        public function setAdminId($adminId)
+        {
+                $this->adminId = $adminId;
+
+                return $this;
         }
 
         /**

@@ -46,10 +46,26 @@
 	// $arrayStudents = $apiController->GetAll();
 	// $student = $apiController->GetOne(5);
 
-	// $admin = new Admin("123456", "Name", "Last", "43312532", "email@gmail.com", true);
+	// $admin = new Admin("1", "123456", "Name", "Last", "43312532", "email@gmail.com", true);
 
 	// foreach ($arrayStudents as $student) {
-		// var_dump($student);
+		// var_dump($admin);
 		// var_dump($admin);
 	// }
+
+	// use Models\Company as Company;
+	// use DAO\CompanyDAO as CompanyDAO;
+
+	// $companyDAO = new CompanyDAO();
+	// $arrayCompany = $companyDAO->GetAll();
+
+	// var_dump($arrayCompany);
+	// var_dump("\n---------------------\n");
+
+	// $company = new Company("2", "Firefox", "Norwey", "Garool", "Firlach", false);
+	// $companyDAO->Add($company);
+
+	// $arrayCompany = $companyDAO->GetAll();
+
+	// var_dump($arrayCompany);
 ?>

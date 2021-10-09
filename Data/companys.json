@@ -1,0 +1,18 @@
+[
+    {
+        "companyId": "1",
+        "fantasyName": "Google",
+        "country": "UUSS",
+        "province": "Texas",
+        "city": "Alabama",
+        "active": true
+    },
+    {
+        "companyId": "2",
+        "fantasyName": "Firefox",
+        "country": "Norwey",
+        "province": "Garool",
+        "city": "Firlach",
+        "active": false
+    }
+]
