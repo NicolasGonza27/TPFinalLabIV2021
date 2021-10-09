@@ -4,7 +4,7 @@
 
     use Models\Student as Student;
 
-    class ApiStudentController
+    class ApiStudentDAO
     {
         private $studentsList;
         private $apiDirection;
@@ -31,13 +31,13 @@
             return $this->studentsList;
         }
 
-        public function GetAllByFirstName($firsName)
-        {
+        public function GetAllByFirstName($firsName) {
+
             $this->RetrieveData();
             $studentsByFirstName = array();
 
             foreach ($this->studentsList as $student) {   
-                if (substr_compare(strtolower($student->getTitle()), strtolower($firsName), 0, strlen($firsName)) === 0) {   
+                if (substr_compare(strtolower($student->getFirstName()), strtolower($firsName), 0, strlen($firsName)) === 0) {   
                     array_push($studentsByFirstName, $student);
                 }
             }
@@ -48,13 +48,13 @@
         /**
          * Retorna los Student con $birthDate mayor o igual a la $date indicada
          */
-        public function GetAllByBirthDate($date)
-        {   
+        public function GetAllByBirthDate($date) {
+
             $this->RetrieveData();
             $studentsByBirthDate= array();
 
             foreach ($this->studentsList as $student) {   
-                if ($student->getRelease_date() >= $date) {   
+                if ($student->getBirthDate() >= $date) {   
                     array_push($studentsByBirthDate, $student);
                 }
             }
@@ -62,8 +62,8 @@
             return $studentsByBirthDate;
         }
 
-        public function GetOne($studentId)
-        {
+        public function GetOne($studentId) {
+
             $response = file_get_contents($this->apiDirection, false, $this->context);
             $arrayToDecode = json_decode($response, true);
             $student = null;
@@ -89,11 +89,45 @@
                     
                     return $student = new Student($studentId, $careerId, $firstName, $lastName, $dni, $fileNumber, $gender, $birthDate, $email, $phoneNumber, $active);
                 }
+
+                return $student;
             }
         }
 
-        public function RetrieveData()
-        {
+        public function GetOneByEmail($email) {
+
+            $response = file_get_contents($this->apiDirection, false, $this->context);
+            $arrayToDecode = json_decode($response, true);
+            $student = false;
+
+            if (!empty($arrayToDecode)) {
+
+                foreach ($arrayToDecode as $studentInArray) {
+                    if ($studentInArray["email"] != $email) {
+                        continue;
+                    }
+
+                    $studentId = $studentInArray["studentId"]; 
+                    $careerId = $studentInArray["careerId"];
+                    $firstName = $studentInArray["firstName"];
+                    $lastName = $studentInArray["lastName"];
+                    $dni = $studentInArray["dni"];
+                    $fileNumber = $studentInArray["fileNumber"];
+                    $gender = $studentInArray["gender"];
+                    $birthDate = date($studentInArray["birthDate"]);
+                    $email = $studentInArray["email"];
+                    $phoneNumber = $studentInArray["phoneNumber"];
+                    $active = $studentInArray["active"];
+                    
+                    return $student = new Student($studentId, $careerId, $firstName, $lastName, $dni, $fileNumber, $gender, $birthDate, $email, $phoneNumber, $active);
+                }
+                
+                return $student;
+            }
+        }
+
+        public function RetrieveData() {
+
             $response = file_get_contents($this->apiDirection, false, $this->context);
             $arrayToDecode = json_decode($response, true);
 
