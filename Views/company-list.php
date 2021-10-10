@@ -8,6 +8,7 @@
 
             <table class="table">
                 <thead class="">
+                    
                     <tr>
                         <th class="text-center">Fantasy Name</th>
                         <th class="text-center">Country</th>
