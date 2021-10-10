@@ -6,35 +6,35 @@
 
     class StudentController
     {
-        private $studentDAO;
+        private $companyDAO;
 
         public function __construct()
         {
-            $this->studentDAO = new StudentDAO();
+            $this->companyDAO = new CompanyDAO();
         }
 
-        public function ShowAddView()
-        {
-            require_once(VIEWS_PATH."student-add.php");
+        public function ShowCompanyListView() {
+            $companyList = $this->companyDAO->GetAll();
+
+            require_once(VIEWS_PATH."company-list.php");
         }
 
-        public function ShowListView()
-        {
-            $studentList = $this->studentDAO->GetAll();
-
-            require_once(VIEWS_PATH."student-list.php");
+        public function ShowAddComanyView() {
+            require_once(VIEWS_PATH."company-add.php");
         }
 
-        public function Add($recordId, $firstName, $lastName)
-        {
-            $student = new Student();
-            $student->setRecordId($recordId);
-            $student->setfirstName($firstName);
-            $student->setLastName($lastName);
+        public function Add($fantasyName, $country, $province, $city) {
+            $company = new Company();
+            $company->setCompanyId($this->companyDAO->returnLastId() + 1);
+            $company->setFantasyName($fantasyName);
+            $company->setCountry($country);
+            $company->setProvince($province);
+            $company->setCity($city);
+            $company->setActive(true);
 
-            $this->studentDAO->Add($student);
+            $this->companyDAO->Add($company);
 
-            $this->ShowAddView();
+            $this->ShowAddComanyView();
         }
     }
 ?>
