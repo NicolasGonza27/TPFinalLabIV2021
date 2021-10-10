@@ -4,7 +4,7 @@
     use DAO\CompanyDAO as CompanyDAO;
     use Models\Company as Company;
 
-    class StudentController
+    class CompanyController
     {
         private $companyDAO;
 
@@ -19,7 +19,7 @@
             require_once(VIEWS_PATH."company-list.php");
         }
 
-        public function ShowAddComanyView() {
+        public function ShowAddCompanyView() {
             require_once(VIEWS_PATH."company-add.php");
         }
 
@@ -34,7 +34,11 @@
 
             $this->companyDAO->Add($company);
 
-            $this->ShowAddComanyView();
+            $this->ShowAddCompanyView();
+        }
+
+        public function getCompanyList() {
+            return $this->companyDAO->getAll();
         }
     }
 ?>

@@ -12,7 +12,11 @@
             $this->admin = new Admin("1", "123", "Admin", "Istrador", "12345678", "admin@gmail.com", true);
         }
 
-        public function ShowAdminHomeView() {
+        public function ShowAdminHomeView($valid = 0) {
+            if ($valid = 1) {
+                $admin = $this->admin;
+            }
+            
             require_once(VIEWS_PATH."admin-home.php");
         }
 
