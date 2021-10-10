@@ -9,6 +9,6 @@
      <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>bootstrap.min.css">
      <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>custom.css">
 
-     <title>Framework Example</title>
+     <title>TPFinalLabIV2021</title>
 </head>
 <body>
