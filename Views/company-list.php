@@ -7,6 +7,7 @@
             <h2 class="mb-4">Companys List</h2>
 
             <table class="table">
+                
                 <thead class="">
                     <tr>
                         <th class="text-center">Fantasy Name</th>
