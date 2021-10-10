@@ -12,16 +12,8 @@
             $this->admin = new Admin("1", "123", "Admin", "Istrador", "12345678", "admin@gmail.com", true);
         }
 
-        public function ShowAdminHomeView()
-        {
+        public function ShowAdminHomeView() {
             require_once(VIEWS_PATH."admin-home.php");
-        }
-
-        public function ShowListView()
-        {
-            $studentList = $this->studentDAO->GetAll();
-
-            require_once(VIEWS_PATH."student-list.php");
         }
 
         public function checkAdminLogin($email, $password) {
@@ -31,7 +23,7 @@
                 require_once(VIEWS_PATH."admin-home.php");
             }
             else {
-                require_once(VIEWS_PATH."index.php");
+                require_once(VIEWS_PATH."home.php");
             }
         }
 

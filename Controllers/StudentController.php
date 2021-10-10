@@ -32,7 +32,7 @@
             $student = $this->apiStudentDAO->GetOneByEmail($email);
 
             if (!$student) {
-                require_once(VIEWS_PATH."index.php");
+                require_once(VIEWS_PATH."home.php");
             }
             else {
                 require_once(VIEWS_PATH."student-info.php");
