@@ -12,7 +12,7 @@
                                    </div>
                               </div>
                          </div>
-                         <div class="row justify-content-end">
+                         <div class="row justify-content-between">
                               <button id="button_login_admin" type="button" class="btn btn-dark d-block mr-3">Login as Admin</button>
                               <button type="submit" class="btn btn-dark d-block">Login</button>
                          </div>
@@ -21,7 +21,7 @@
                
                <div id="admin_login" class="hidden">
                     <h2 class="mb-4">Admin Login</h2>
-                    <form action="<?php echo FRONT_ROOT ?>Student/checkStudentEmail" method="post" class="bg-light-alpha p-5">
+                    <form action="<?php echo FRONT_ROOT ?>Admin/checkAdminLogin" method="post" class="bg-light-alpha p-5">
                          <div class="row">
                               <div class="col-lg-4">
                                    <div class="form-group">
@@ -36,7 +36,7 @@
                                    </div>
                               </div>
                          </div>
-                         <div class="row justify-content-end">
+                         <div class="row justify-content-between">
                               <button id="button_login_student" type="button" class="btn btn-dark d-block mr-3">Login as Student</button>
                               <button type="submit" class="btn btn-dark d-block">Login</button>
                          </div>
