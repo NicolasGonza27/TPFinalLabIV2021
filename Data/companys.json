@@ -14,5 +14,13 @@
         "province": "Garool",
         "city": "Firlach",
         "active": false
+    },
+    {
+        "companyId": 3,
+        "fantasyName": "Samsung",
+        "country": "America",
+        "province": "Washington",
+        "city": "New York",
+        "active": true
     }
 ]
