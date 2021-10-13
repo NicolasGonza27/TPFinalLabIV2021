@@ -14,13 +14,33 @@
         }
 
         public function ShowCompanyListView() {
-            $companyList = $this->companyDAO->GetAll();
+            $companyList = $this->companyDAO->GetAll(1);
 
             require_once(VIEWS_PATH."company-list.php");
         }
 
         public function ShowAddCompanyView() {
             require_once(VIEWS_PATH."company-add.php");
+        }
+
+        public function ShowCompanyView($companyId) {
+            if (!$companyId) {
+
+            }
+
+            $company = $this->companyDAO->returnCompanyById($companyId);
+            require_once(VIEWS_PATH."company-info.php");
+        }
+
+        public function ShowCompanyStudentView($fantasyName = null) {
+            if (!$fantasyName) {
+                $companyList = $this->companyDAO->GetAll(1);
+                require_once(VIEWS_PATH."company-student-list.php");
+                return;
+            }
+            
+            $companyList = $this->companyDAO->SearchCompany($fantasyName);
+            require_once(VIEWS_PATH."company-student-list.php");
         }
 
         public function Add($fantasyName, $country, $province, $city) {
@@ -35,6 +55,26 @@
             $this->companyDAO->Add($company);
 
             $this->ShowAddCompanyView();
+        }
+
+        public function ModifyCompany($companyId, $fantasyName, $country, $province, $city) {
+            $company = new Company();
+            $company = $this->companyDAO->returnCompanyById($companyId);
+
+            $company->setFantasyName($fantasyName);
+            $company->setCountry($country);
+            $company->setProvince($province);
+            $company->setCity($city);
+
+            $this->companyDAO->Modify($company);
+
+            $this->ShowCompanyListView();
+        }
+
+        public function DeleteCompany($companyId) {
+            $this->companyDAO->Delete($companyId);
+
+            $this->ShowCompanyListView();
         }
 
         public function getCompanyList() {

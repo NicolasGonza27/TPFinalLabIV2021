@@ -13,7 +13,7 @@
         public function __construct()
         {
             $this->companyList = array();
-            $this->fileName = dirname(__DIR__)."/Data/companys.json";
+            $this->fileName = dirname(__DIR__)."/Data/companyes.json";
         }
 
 
@@ -24,19 +24,50 @@
             $this->SaveAll();
         }
 
+        public function Modify(Company $company)
+        {
+            $this->RetrieveData();
+            $key = $this->returnKeyById($company->getCompanyId());
+            $this->companyList[$key] = $company;
+            $this->SaveAll();
+        }
+
         public function Delete($id) 
         {
             $this->RetrieveData();
             $key = $this->returnKeyById($id);    
              
-            unset($this->companyList[$key]);            
+            $this->companyList[$key]->setActive(false);            
             $this->SaveAll();
         }
 
-        public function GetAll()
+        /**
+         * $active_filtes int 1 for active companyes, 0 for inactive companyes 
+         */
+        public function GetAll($active_filter = 2)
         {
             $this->RetrieveData();
-            return $this->companyList;
+            $companyList = [];
+
+            if ($active_filter == 2) {
+                return $this->companyList;
+            }
+            else if ($active_filter == 1) {
+                foreach ($this->companyList as $company) {
+                    if ($company->getActive() == true) {
+                        array_push($companyList, $company);
+                    }
+                }
+            }
+            else if ($active_filter == 0) {
+                foreach ($this->companyList as $company) {
+                    if ($company->getActive() == false) {
+                        array_push($companyList, $company);
+                    }
+                }
+            }
+
+            return $companyList;
         }
 
         
@@ -68,23 +99,40 @@
             
             return false;
         }
-        
-        public function SearchCompany($fantasyName)
+
+        public function returnCompanyById($id)
         {
             $this->RetrieveData();
 
             foreach($this->companyList as $company)
-            {
-                if($company->getFantasyName() == $fantasyName)
+            {  
+                if($company->getCompanyId() == $id)
                 {
                     return $company;
                 }
             }
-        
+            
             return false;
         }
+        
+        public function SearchCompany($fantasyName)
+        {
+            $this->RetrieveData();
+            $companyList = [];
 
-        public function SearchcompanyBoolean($fantasyName)
+            foreach($this->companyList as $company)
+            {
+                if (stristr($company->getFantasyName(), strval($fantasyName)) === FALSE) {
+                    continue;
+                }
+                
+                array_push($companyList, $company);
+            }
+        
+            return count($companyList) > 0 ? $companyList : false;
+        }
+
+        public function SearchCompanyBoolean($fantasyName)
         {
             $this->RetrieveData();
 

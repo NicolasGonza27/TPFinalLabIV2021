@@ -28,6 +28,11 @@
             require_once(VIEWS_PATH."student-list.php");
         }
 
+        public function ShowStudentHomeView()
+        {
+            require_once(VIEWS_PATH."student-info.php");
+        }
+
         public function checkStudentEmail($email) {
             $student = $this->apiStudentDAO->GetOneByEmail($email);
 
@@ -35,6 +40,7 @@
                 require_once(VIEWS_PATH."home.php");
             }
             else {
+                $_SESSION["student"] = $student;
                 require_once(VIEWS_PATH."student-info.php");
             }
         }
