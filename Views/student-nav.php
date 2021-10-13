@@ -1,13 +1,21 @@
+<?php
+
+     use Models\Student as Student;
+
+     $student = $_SESSION["student"];
+?>
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
-     <span class="navbar-text">
-          <strong>Framework</strong>
-     </span>
+     <a class="nav-link" href="<?= FRONT_ROOT ?>Student/ShowStudentHomeView">
+          <span class="navbar-text">
+               <strong>Student</strong>
+          </span>
+     </a>
      <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-               <a class="nav-link" href="<?php echo FRONT_ROOT ?>Student/ShowAddView">Agregar Alumno</a>
+               <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowCompanyStudentView">Companyes List</a>
           </li>
           <li class="nav-item">
-               <a class="nav-link" href="<?php echo FRONT_ROOT ?>Student/ShowListView">Listar Alumnos</a>
-          </li>          
+               <a class="nav-link" href="<?php echo FRONT_ROOT ?>Home/Logout">Log Out</a>
+          </li>     
      </ul>
 </nav>

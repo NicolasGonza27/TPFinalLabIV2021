@@ -1,0 +1,50 @@
+[
+    {
+        "companyId": "1",
+        "fantasyName": "Google",
+        "country": "UUSS",
+        "province": "Texas",
+        "city": "Alabama",
+        "active": true
+    },
+    {
+        "companyId": "2",
+        "fantasyName": "Firefox",
+        "country": "Norwey",
+        "province": "Garool",
+        "city": "Firlach",
+        "active": true
+    },
+    {
+        "companyId": 3,
+        "fantasyName": "Samsung77",
+        "country": "America77",
+        "province": "Washington77",
+        "city": "New York77",
+        "active": true
+    },
+    {
+        "companyId": 4,
+        "fantasyName": "nueva1",
+        "country": "pais1",
+        "province": "provincia1",
+        "city": "ciudad1",
+        "active": true
+    },
+    {
+        "companyId": 5,
+        "fantasyName": "fs",
+        "country": "fd",
+        "province": "ff",
+        "city": "fg",
+        "active": true
+    },
+    {
+        "companyId": 6,
+        "fantasyName": "nnnnnnnnnnn",
+        "country": "ooooooooo",
+        "province": "pppppppppp",
+        "city": "cccccccccccc",
+        "active": true
+    }
+]
