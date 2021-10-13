@@ -125,7 +125,10 @@
                 if (stristr($company->getFantasyName(), strval($fantasyName)) === FALSE) {
                     continue;
                 }
-                
+                if (!$company->getActive()) {
+                    continue;
+                }
+
                 array_push($companyList, $company);
             }
         

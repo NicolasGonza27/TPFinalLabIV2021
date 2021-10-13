@@ -4,18 +4,14 @@
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="d-flex justify-content-end">
-                        <div class="col-lg-4">
-                            <form action="<?= FRONT_ROOT ?>Company/ShowCompanyStudentView" method="post">
-                                <div class="d-flex align-item-center">
-                                    <input type="text" class="flex-grow-1" name="fantasyName" value="<?=($fantasyName ? $fantasyName : "")?>">
-                                    <button type="submit" class="btn btn-outline-success" style="margin-left: 3px;">Search</button>
-                                </div>
-                            </form>
+            <div class="d-flex justify-content-end">
+                <div class="col-lg-4">
+                    <form action="<?= FRONT_ROOT ?>Company/ShowCompanyListStudentView" method="post">
+                        <div class="d-flex align-item-center">
+                            <input type="text" class="flex-grow-1" name="fantasyName" value="<?=($fantasyName ? $fantasyName : "")?>">
+                            <button type="submit" class="btn btn-outline-success" style="margin-left: 3px;">Search</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <h2 class="mb-4">Companyes List</h2>
@@ -27,6 +23,7 @@
                         <th class="text-center">Country</th>
                         <th class="text-center">Province</th>
                         <th class="text-center">City</th>
+                        <th class="text-center">Options</th>
                     </tr>
                 </thead>
                 <tbody class="">
@@ -47,6 +44,12 @@
                             </td>
                             <td class="text-center">
                                 <span class="city"><?= $company->getCity() ?></span>
+                            </td>
+                            <td class="text-center row">
+                                <form action="<?php echo FRONT_ROOT . "Company/ShowCompanyView" ?>" method="post" class="mb-0">
+                                    <input type="text" class="hidden" name="companyId" value="<?= $company->getCompanyId() ?>">
+                                    <button type="submit" class="btn btn-outline-success" style="margin-left: 3px;">Details</button>
+                                </form>
                             </td>
                         </tr>
 
