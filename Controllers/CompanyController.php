@@ -13,12 +13,6 @@
             $this->companyDAO = new CompanyDAO();
         }
 
-        public function ShowCompanyListView() {
-            $companyList = $this->companyDAO->GetAll(1);
-
-            require_once(VIEWS_PATH."company-list.php");
-        }
-
         public function ShowAddCompanyView() {
             require_once(VIEWS_PATH."company-add.php");
         }
@@ -31,8 +25,19 @@
             $company = $this->companyDAO->returnCompanyById($companyId);
             require_once(VIEWS_PATH."company-info.php");
         }
+        
+        public function ShowCompanyListView($fantasyName = null) {
+            if (!$fantasyName) {
+                $companyList = $this->companyDAO->GetAll(1);
+                require_once(VIEWS_PATH."company-list.php");
+                return;
+            }
+            
+            $companyList = $this->companyDAO->SearchCompany($fantasyName);
+            require_once(VIEWS_PATH."company-list.php");
+        }
 
-        public function ShowCompanyStudentView($fantasyName = null) {
+        public function ShowCompanyListStudentView($fantasyName = null) {
             if (!$fantasyName) {
                 $companyList = $this->companyDAO->GetAll(1);
                 require_once(VIEWS_PATH."company-student-list.php");

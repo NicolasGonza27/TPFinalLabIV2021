@@ -4,6 +4,16 @@
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
+            <div class="d-flex justify-content-end">
+                <div class="col-lg-4">
+                    <form action="<?= FRONT_ROOT ?>Company/ShowCompanyListView" method="post">
+                        <div class="d-flex align-item-center">
+                            <input type="text" class="flex-grow-1" name="fantasyName" value="<?=($fantasyName ? $fantasyName : "")?>">
+                            <button type="submit" class="btn btn-outline-success" style="margin-left: 3px;">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <h2 class="mb-4">Companyes List</h2>
 
             <table class="table">

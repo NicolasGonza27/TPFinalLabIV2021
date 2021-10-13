@@ -12,7 +12,7 @@
      </a>
      <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-               <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowCompanyStudentView">Companyes List</a>
+               <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowCompanyListStudentView">Companyes List</a>
           </li>
           <li class="nav-item">
                <a class="nav-link" href="<?php echo FRONT_ROOT ?>Home/Logout">Log Out</a>
