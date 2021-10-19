@@ -2,49 +2,89 @@
     {
         "companyId": "1",
         "fantasyName": "Google",
+        "cuil": "54541215154",
+        "phoneNumber": "2231445522",
         "country": "UUSS",
         "province": "Texas",
         "city": "Alabama",
+        "direction": "dir",
         "active": true
     },
     {
         "companyId": "2",
         "fantasyName": "Firefox",
+        "cuil": null,
+        "phoneNumber": null,
         "country": "Norwey",
         "province": "Garool",
         "city": "Firlach",
+        "direction": null,
         "active": true
     },
     {
         "companyId": 3,
         "fantasyName": "Samsung77",
+        "cuil": null,
+        "phoneNumber": null,
         "country": "America77",
         "province": "Washington77",
         "city": "New York77",
+        "direction": null,
         "active": true
     },
     {
         "companyId": 4,
-        "fantasyName": "nueva1",
-        "country": "pais1",
-        "province": "provincia1",
-        "city": "ciudad1",
+        "fantasyName": "nueva",
+        "cuil": null,
+        "phoneNumber": null,
+        "country": "pais",
+        "province": "provincia",
+        "city": "ciudad",
+        "direction": null,
         "active": true
     },
     {
         "companyId": 5,
         "fantasyName": "fs",
+        "cuil": null,
+        "phoneNumber": null,
         "country": "fd",
         "province": "ff",
         "city": "fg",
-        "active": true
+        "direction": null,
+        "active": false
     },
     {
         "companyId": 6,
         "fantasyName": "nnnnnnnnnnn",
+        "cuil": null,
+        "phoneNumber": null,
         "country": "ooooooooo",
         "province": "pppppppppp",
         "city": "cccccccccccc",
+        "direction": null,
+        "active": false
+    },
+    {
+        "companyId": 7,
+        "fantasyName": "nueva",
+        "cuil": null,
+        "phoneNumber": null,
+        "country": "peru",
+        "province": "prov",
+        "city": "lima",
+        "direction": null,
+        "active": true
+    },
+    {
+        "companyId": 8,
+        "fantasyName": "sads",
+        "cuil": "asdasd",
+        "phoneNumber": "asdasd",
+        "country": "asdasd",
+        "province": "asdasd",
+        "city": "asdasd",
+        "direction": "asdasd",
         "active": false
     }
 ]

@@ -5,18 +5,24 @@
     {
         private $companyId;
         private $fantasyName;
+        private $cuil;
+        private $phoneNumber;
         private $country;
         private $province;
         private $city;
+        private $direction;
         private $active;
 
-        public function __construct($companyId = null, $fantasyName = null, $country = null, $province = null, $city = null, $active = null)
+        public function __construct($companyId = null, $fantasyName = null, $cuil = null, $phoneNumber = null, $country = null, $province = null, $city = null, $direction = null, $active = null)
         {
             $this->companyId = $companyId;
             $this->fantasyName = $fantasyName;
+            $this->cuil = $cuil;
+            $this->phoneNumber = $phoneNumber;
             $this->country = $country;
             $this->province = $province;
             $this->city = $city;
+            $this->direction = $direction;
             $this->active = $active;
         }
 
@@ -136,6 +142,66 @@
         public function setActive($active)
         {
                 $this->active = $active;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of cuil
+         */ 
+        public function getCuil()
+        {
+                return $this->cuil;
+        }
+
+        /**
+         * Set the value of cuil
+         *
+         * @return  self
+         */ 
+        public function setCuil($cuil)
+        {
+                $this->cuil = $cuil;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of phoneNumber
+         */ 
+        public function getPhoneNumber()
+        {
+                return $this->phoneNumber;
+        }
+
+        /**
+         * Set the value of phoneNumber
+         *
+         * @return  self
+         */ 
+        public function setPhoneNumber($phoneNumber)
+        {
+                $this->phoneNumber = $phoneNumber;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of direction
+         */ 
+        public function getDirection()
+        {
+                return $this->direction;
+        }
+
+        /**
+         * Set the value of direction
+         *
+         * @return  self
+         */ 
+        public function setDirection($direction)
+        {
+                $this->direction = $direction;
 
                 return $this;
         }

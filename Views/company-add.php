@@ -16,6 +16,14 @@
                                     <input type="text" name="fantasyName" value="" class="form-control">
                                 </div>
                                 <div class="form-group">
+                                    <label for="">Cuil</label>
+                                    <input type="text" name="cuil" value="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Phone Number</label>
+                                    <input type="text" name="phoneNumber" value="" class="form-control">
+                                </div>
+                                <div class="form-group">
                                     <label for="">Country</label>
                                     <input type="text" name="country" value="" class="form-control">
                                 </div>
@@ -26,6 +34,10 @@
                                 <div class="form-group">
                                     <label for="">City</label>
                                     <input type="text" name="city" value="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Direction</label>
+                                    <input type="text" name="direction" value="" class="form-control">
                                 </div>
                             </div>
                         </div>

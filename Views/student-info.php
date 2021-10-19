@@ -32,7 +32,7 @@
                             </div>
                             <div class="row">
                                 <span class="col-lg-6">Birth Date:</span>
-                                <span class="col-lg-6"><?= $student->getBirthDate() ?></span>
+                                <span class="col-lg-6"><?= date("Y-m-d H:i:s", strtotime($student->getBirthDate())) ?></span>
                             </div>
                             <div class="row">
                                 <span class="col-lg-6">Email:</span>
