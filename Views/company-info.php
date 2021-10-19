@@ -20,6 +20,14 @@
                                 <span class="col-lg-6"><?= $company->getFantasyName() ?></span>
                             </div>
                             <div class="row">
+                                <span class="col-lg-6">Cuil:</span>
+                                <span class="col-lg-6"><?= $company->getCuil() ?></span>
+                            </div>
+                            <div class="row">
+                                <span class="col-lg-6">Phone Number:</span>
+                                <span class="col-lg-6"><?= $company->getPhoneNumber() ?></span>
+                            </div>
+                            <div class="row">
                                 <span class="col-lg-6">Country:</span>
                                 <span class="col-lg-6"><?= $company->getCountry() ?></span>
                             </div>
@@ -30,6 +38,10 @@
                             <div class="row">
                                 <span class="col-lg-6">City:</span>
                                 <span class="col-lg-6"><?= $company->getCity() ?></span>
+                            </div>
+                            <div class="row">
+                                <span class="col-lg-6">Direction:</span>
+                                <span class="col-lg-6"><?= $company->getDirection() ?></span>
                             </div>
                         </div>
                     </div>

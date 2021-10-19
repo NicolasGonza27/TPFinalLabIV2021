@@ -48,13 +48,16 @@
             require_once(VIEWS_PATH."company-student-list.php");
         }
 
-        public function Add($fantasyName, $country, $province, $city) {
+        public function Add($fantasyName, $cuil, $phoneNumber,  $country, $province, $city, $direction) {
             $company = new Company();
             $company->setCompanyId($this->companyDAO->returnLastId() + 1);
             $company->setFantasyName($fantasyName);
+            $company->setCuil($cuil);
+            $company->setPhoneNumber($phoneNumber);
             $company->setCountry($country);
             $company->setProvince($province);
             $company->setCity($city);
+            $company->setDirection($direction);
             $company->setActive(true);
 
             $this->companyDAO->Add($company);
@@ -62,14 +65,17 @@
             $this->ShowAddCompanyView();
         }
 
-        public function ModifyCompany($companyId, $fantasyName, $country, $province, $city) {
+        public function ModifyCompany($companyId, $fantasyName, $cuil, $phoneNumber,  $country, $province, $city, $direction) {
             $company = new Company();
             $company = $this->companyDAO->returnCompanyById($companyId);
 
             $company->setFantasyName($fantasyName);
+            $company->setCuil($cuil);
+            $company->setPhoneNumber($phoneNumber);
             $company->setCountry($country);
             $company->setProvince($province);
             $company->setCity($city);
+            $company->setDirection($direction);
 
             $this->companyDAO->Modify($company);
 

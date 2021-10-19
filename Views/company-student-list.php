@@ -9,7 +9,7 @@
                     <form action="<?= FRONT_ROOT ?>Company/ShowCompanyListStudentView" method="post">
                         <div class="d-flex align-item-center">
                             <input type="text" class="flex-grow-1" name="fantasyName" value="<?=($fantasyName ? $fantasyName : "")?>">
-                            <button type="submit" class="btn btn-outline-success" style="margin-left: 3px;">Search</button>
+                            <button type="submit" title="Search" class="btn" style="margin-left: 3px;"><i class="fas fa-search"></i></button>
                         </div>
                     </form>
                 </div>
@@ -20,9 +20,12 @@
                 <thead class="">
                     <tr>
                         <th class="text-center">Fantasy Name</th>
+                        <th class="text-center">Cuil</th>
+                        <th class="text-center">Phone Number</th>
                         <th class="text-center">Country</th>
                         <th class="text-center">Province</th>
                         <th class="text-center">City</th>
+                        <th class="text-center">Direction</th>
                         <th class="text-center">Options</th>
                     </tr>
                 </thead>
@@ -37,6 +40,12 @@
                                 <span class="fantasy-name"><?= $company->getFantasyName() ?></span>
                             </td>
                             <td class="text-center">
+                                <span class="cuil"><?= $company->getCuil() ?></span>
+                            </td>
+                            <td class="text-center">
+                                <span class="phone-number"><?= $company->getPhoneNumber() ?></span>
+                            </td>
+                            <td class="text-center">
                                 <span class="country"><?= $company->getCountry() ?></span>
                             </td>
                             <td class="text-center">
@@ -45,10 +54,13 @@
                             <td class="text-center">
                                 <span class="city"><?= $company->getCity() ?></span>
                             </td>
-                            <td class="text-center row">
+                            <td class="text-center">
+                                <span class="direction"><?= $company->getDirection() ?></span>
+                            </td>
+                            <td class="text-right">
                                 <form action="<?php echo FRONT_ROOT . "Company/ShowCompanyView" ?>" method="post" class="mb-0">
                                     <input type="text" class="hidden" name="companyId" value="<?= $company->getCompanyId() ?>">
-                                    <button type="submit" class="btn btn-outline-success" style="margin-left: 3px;">Details</button>
+                                    <button type="submit" title="Details" class="btn btn-outline-success" style="margin-left: 3px;"><i class="fas fa-file"></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -90,6 +102,16 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="">Cuil</label>
+                        <input type="text" id="cuil_edit" name="cuil" class="form-control" value="" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Phone Number</label>
+                        <input type="text" id="phone_number_edit" name="phoneNumber" class="form-control" value="" required />
+                    </div>
+
+                    <div class="form-group">
                         <label for="">Country</label>
                         <input type="text" id="country_edit" name="country" class="form-control" value="" required />
                     </div>
@@ -102,6 +124,11 @@
                     <div class="form-group">
                         <label for="">City</label>
                         <input type="text" id="city_edit" name="city" class="form-control" value="" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Direction</label>
+                        <input type="text" id="direction_edit" name="direction" class="form-control" value="" required />
                     </div>
 
                     <div class="form-group">
@@ -149,9 +176,12 @@
 
                     $("#company_id_edit").val($row.find(".companyId").val());
                     $("#fantasy_name_edit").val($row.find(".fantasy-name").text());
+                    $("#cuil_edit").val($row.find(".cuil").text());
+                    $("#phone_number_edit").val($row.find(".phone-number").text());
                     $("#country_edit").val($row.find(".country").text());
                     $("#province_edit").val($row.find(".province").text());
                     $("#city_edit").val($row.find(".city").text());
+                    $("#direction_edit").val($row.find(".direction").text());
                }
           );
 

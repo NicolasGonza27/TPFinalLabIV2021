@@ -158,9 +158,12 @@
             {
                 $valuesArray["companyId"] = $company->getCompanyId();
                 $valuesArray["fantasyName"] = $company->getFantasyName();
+                $valuesArray["cuil"] = $company->getCuil();
+                $valuesArray["phoneNumber"] = $company->getPhoneNumber();
                 $valuesArray["country"] = $company->getCountry();
                 $valuesArray["province"] = $company->getProvince();
                 $valuesArray["city"] = $company->getCity();
+                $valuesArray["direction"] = $company->getDirection();
                 $valuesArray["active"] = $company->getActive();
 
                 array_push($arrayToEncode, $valuesArray);
@@ -183,12 +186,15 @@
                 {
                     $companyId = $valuesArray["companyId"];
                     $fantasyName = $valuesArray["fantasyName"];
+                    $cuil = $valuesArray["cuil"];
+                    $phoneNumber = $valuesArray["phoneNumber"];
                     $country = $valuesArray["country"];
                     $province = $valuesArray["province"];
                     $city =  $valuesArray["city"];
+                    $direction =  $valuesArray["direction"];
                     $active = $valuesArray["active"];
 
-                    $company = new Company($companyId, $fantasyName, $country, $province, $city, $active);
+                    $company = new Company($companyId, $fantasyName, $cuil, $phoneNumber, $country, $province, $city, $direction, $active);
                     array_push($this->companyList, $company);
                 }
             }
