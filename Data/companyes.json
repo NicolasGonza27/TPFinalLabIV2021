@@ -24,12 +24,12 @@
     {
         "companyId": 3,
         "fantasyName": "Samsung77",
-        "cuil": null,
-        "phoneNumber": null,
+        "cuil": "4343411542",
+        "phoneNumber": "2341459865",
         "country": "America77",
         "province": "Washington77",
         "city": "New York77",
-        "direction": null,
+        "direction": "testdir 3244",
         "active": true
     },
     {

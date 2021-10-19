@@ -60,7 +60,7 @@
                             <td class="text-right">
                                 <form action="<?php echo FRONT_ROOT . "Company/ShowCompanyView" ?>" method="post" class="mb-0">
                                     <input type="text" class="hidden" name="companyId" value="<?= $company->getCompanyId() ?>">
-                                    <button type="submit" title="Details" class="btn btn-outline-success" style="margin-left: 3px;"><i class="fas fa-file"></i></button>
+                                    <button type="submit" title="Details" class="btn btn-success" style="margin-left: 3px;"><i class="fas fa-file"></i></button>
                                 </form>
                             </td>
                         </tr>

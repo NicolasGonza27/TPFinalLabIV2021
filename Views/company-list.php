@@ -59,10 +59,10 @@
                             </td>
                             <td class="text-right">
                                 <form action="<?php echo FRONT_ROOT . "Company/ShowCompanyView" ?>" method="post" class="mb-0">
-                                    <button type="button" title="Edit" class="button-modal-edit btn btn-outline-primary" data-id="<?= $company->getCompanyId() ?>" data-toggle="modal" data-target="#modalEditCompany"><i class="fas fa-edit"></i></button>
-                                    <button type="button" title="Remove" class="button-modal-delete btn btn-outline-danger" style="margin-left: 3px;"  data-toggle="modal" data-target="#modalDeleteCompany"><i class="fas fa-trash"></i></button>
+                                    <button type="button" title="Edit" class="button-modal-edit btn btn-primary" data-id="<?= $company->getCompanyId() ?>" data-toggle="modal" data-target="#modalEditCompany"><i class="fas fa-edit"></i></button>
+                                    <button type="button" title="Remove" class="button-modal-delete btn btn-danger" style="margin-left: 3px;"  data-toggle="modal" data-target="#modalDeleteCompany"><i class="fas fa-trash"></i></button>
                                     <input type="text" class="hidden" name="companyId" value="<?= $company->getCompanyId() ?>">
-                                    <button type="submit" title="Details" class="btn btn-outline-success" style="margin-left: 3px;"><i class="fas fa-file"></i></button>
+                                    <button type="submit" title="Details" class="btn btn-success" style="margin-left: 3px;"><i class="fas fa-file"></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -86,57 +86,54 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <form action="<?= FRONT_ROOT ?>Company/ModifyCompany" method="post">
+                <form class="m-20" action="<?= FRONT_ROOT ?>Company/ModifyCompany" method="post">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
 
                     <h2 id="modal_edit_title">Edit Company </h2>
-                    <p>You can edit the company, change the text fields that you want modify</p>
+                    <p>You can edit the company, change the text fields that you want to modify.</p>
                     <hr>
 
                     <input type="text" id="company_id_edit" name="companyId" class="hidden" value="" >
 
                     <div class="form-group">
                         <label for="">Fantasy Name</label>
-                        <input type="text" id="fantasy_name_edit" name="fantasyName" class="form-control" value="" required />
+                        <input type="text" id="fantasy_name_edit" name="fantasyName" class="form-control" maxlength="15" value="" required />
                     </div>
 
                     <div class="form-group">
                         <label for="">Cuil</label>
-                        <input type="text" id="cuil_edit" name="cuil" class="form-control" value="" required />
+                        <input type="text" id="cuil_edit" name="cuil" class="form-control" maxlength="15" value="" required />
                     </div>
 
                     <div class="form-group">
                         <label for="">Phone Number</label>
-                        <input type="text" id="phone_number_edit" name="phoneNumber" class="form-control" value="" required />
+                        <input type="text" id="phone_number_edit" name="phoneNumber" class="form-control" maxlength="15" value="" required />
                     </div>
 
                     <div class="form-group">
                         <label for="">Country</label>
-                        <input type="text" id="country_edit" name="country" class="form-control" value="" required />
+                        <input type="text" id="country_edit" name="country" class="form-control" maxlength="15" value="" required />
                     </div>
 
                     <div class="form-group">
                         <label for="">Province</label>
-                        <input type="text" id="province_edit" name="province" class="form-control" value="" required />
+                        <input type="text" id="province_edit" name="province" class="form-control" maxlength="15" value="" required />
                     </div>
 
                     <div class="form-group">
                         <label for="">City</label>
-                        <input type="text" id="city_edit" name="city" class="form-control" value="" required />
+                        <input type="text" id="city_edit" name="city" class="form-control" maxlength="15" value="" required />
                     </div>
 
                     <div class="form-group">
                         <label for="">Direction</label>
-                        <input type="text" id="direction_edit" name="direction" class="form-control" value="" required />
+                        <input type="text" id="direction_edit" name="direction" class="form-control" maxlength="15" value="" required />
                     </div>
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
-                    </div>
-
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
                 </form>
             </div>
         </div>
@@ -175,6 +172,7 @@
           $(".button-modal-edit").click(
                function () {
                     var $row = $(this).closest("tr");
+                    $("#modal_edit_title").text("Edit Company: " + $row.find(".fantasy-name").text());
 
                     $("#company_id_edit").val($row.find(".companyId").val());
                     $("#fantasy_name_edit").val($row.find(".fantasy-name").text());
