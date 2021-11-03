@@ -3,7 +3,12 @@
           <div class="container">
                <div id="student_login">
                     <h2 class="mb-4">Student Login</h2>
-                    <form action="<?php echo FRONT_ROOT ?>Student/checkStudentEmail" method="post" class="bg-light-alpha p-5">
+                    <form action="<?php echo FRONT_ROOT ?>Student/ShowStudentSignInView" method="post" class="bg-light-alpha pr-5 pt-5">
+                         <div class="row justify-content-end">
+                              <button type="submit" class="btn btn-dark d-block">Sign In</button>
+                         </div>
+                    </form>
+                    <form action="<?php echo FRONT_ROOT ?>Student/checkStudentEmail" method="post" class="bg-light-alpha pl-5 pb-5 pr-5">
                          <div class="row">
                               <div class="col-lg-4">
                                    <div class="form-group">

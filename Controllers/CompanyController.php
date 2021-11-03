@@ -22,13 +22,13 @@
 
             }
 
-            $company = $this->companyDAO->returnCompanyById($companyId);
+            $company = $this->companyDAO->GetOne($companyId);
             require_once(VIEWS_PATH."company-info.php");
         }
         
         public function ShowCompanyListView($fantasyName = null) {
             if (!$fantasyName) {
-                $companyList = $this->companyDAO->GetAll(1);
+                $companyList = $this->companyDAO->GetAll(true);
                 require_once(VIEWS_PATH."company-list.php");
                 return;
             }
@@ -39,7 +39,7 @@
 
         public function ShowCompanyListStudentView($fantasyName = null) {
             if (!$fantasyName) {
-                $companyList = $this->companyDAO->GetAll(1);
+                $companyList = $this->companyDAO->GetAll(true);
                 require_once(VIEWS_PATH."company-student-list.php");
                 return;
             }
@@ -49,16 +49,7 @@
         }
 
         public function Add($fantasyName, $cuil, $phoneNumber,  $country, $province, $city, $direction) {
-            $company = new Company();
-            $company->setCompanyId($this->companyDAO->returnLastId() + 1);
-            $company->setFantasyName($fantasyName);
-            $company->setCuil($cuil);
-            $company->setPhoneNumber($phoneNumber);
-            $company->setCountry($country);
-            $company->setProvince($province);
-            $company->setCity($city);
-            $company->setDirection($direction);
-            $company->setActive(true);
+            $company = new Company(rand(10000,99999),$fantasyName,$cuil,$phoneNumber,$country,$province,$city,$direction,true);
 
             $this->companyDAO->Add($company);
 
@@ -67,7 +58,7 @@
 
         public function ModifyCompany($companyId, $fantasyName, $cuil, $phoneNumber,  $country, $province, $city, $direction) {
             $company = new Company();
-            $company = $this->companyDAO->returnCompanyById($companyId);
+            $company = $this->companyDAO->GetOne($companyId);
 
             $company->setFantasyName($fantasyName);
             $company->setCuil($cuil);
@@ -89,7 +80,7 @@
         }
 
         public function getCompanyList() {
-            return $this->companyDAO->getAll();
+            return $this->companyDAO->GetAll();
         }
     }
 ?>

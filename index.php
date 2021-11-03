@@ -11,8 +11,12 @@
 	use Config\Autoload as Autoload;
 	use Config\Router 	as Router;
 	use Config\Request 	as Request;
-		
-	Autoload::start();
+// 	use DAOmysql\QueryType as QueryType;
+// 	use DAOmysql\Connection as Connection;
+// 	use DAO\StudentDAO as StudentDAO;
+//  use Models\Student;
+
+Autoload::start();
 
 	session_start();
 
@@ -22,7 +26,18 @@
 
 	require_once(VIEWS_PATH."footer.php");
 
-	
+	// $tableName = "company";
+	// $query = "SELECT * FROM ".$tableName.";";
+	// //$parameters["eliminado"] = false;
+	// $connection = Connection::GetInstance();
+	// $resultSet = $connection->Execute($query);
+
+	// $student = new Student(90, 1, "test", "lasttest", "4444444", "56565656", "Agender", "19820630", "email@email.com", "223434343", true);
+	// $studentDAO = new StudentDAO();
+	// $studentDAO->Add($student);
+	// $resultSet = $studentDAO->GetAll();
+
+	// var_dump($resultSet);
 
 	// $options = array(
 	// 	'http' => array(

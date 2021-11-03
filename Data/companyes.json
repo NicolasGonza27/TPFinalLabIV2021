@@ -86,5 +86,16 @@
         "city": "asdasd",
         "direction": "asdasd",
         "active": false
+    },
+    {
+        "companyId": 9,
+        "fantasyName": "Accenture",
+        "cuil": "99999",
+        "phoneNumber": "22332265",
+        "country": "count",
+        "province": "prov",
+        "city": "city",
+        "direction": "direc",
+        "active": false
     }
 ]
