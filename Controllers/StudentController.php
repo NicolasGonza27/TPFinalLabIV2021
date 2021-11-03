@@ -33,8 +33,17 @@
             require_once(VIEWS_PATH."student-info.php");
         }
 
+        public function ShowStudentSignInView()
+        {
+            require_once(VIEWS_PATH."student-signIn.php");
+        }
+
         public function checkStudentEmail($email) {
             $student = $this->apiStudentDAO->GetOneByEmail($email);
+            if (!$student) {
+                $student = $this->studentDAO->GetOneByEmail($email);
+            }
+            
 
             if (!$student) {
                 require_once(VIEWS_PATH."home.php");
@@ -45,16 +54,28 @@
             }
         }
 
-        public function Add($recordId, $firstName, $lastName)
+        public function Add($firstName, $lastName, $dni, $fileNumber, $gender, $birthDate, $email, $phoneNumber)
         {
-            // $student = new Student();
-            // $student->setRecordId($recordId);
-            // $student->setfirstName($firstName);
-            // $student->setLastName($lastName);
+            $student = new Student(rand(100000,99999), 0, $firstName, $lastName, $dni, $fileNumber, $gender, $birthDate, $email, $phoneNumber, true);
+            $error = 0;
+            if ($this->studentDAO->GetOneByEmail($email) || $this->apiStudentDAO->GetOneByEmail($email)) {
+                $error = 1;
+            }
+            if ($this->studentDAO->GetOneByDni($dni) || $this->apiStudentDAO->GetOneByDni($dni)) {
+                $error = 1;
+            }
 
-            // $this->studentDAO->Add($student);
+            if ($error == 0) {
+                $this->studentDAO->Add($student);
 
-            // $this->ShowAddView();
+                $_SESSION["student"] = $student;
+                require_once(VIEWS_PATH."student-info.php");
+            }
+            else {
+                require_once(VIEWS_PATH."student-signIn.php");
+            }
+
+            
         }
     }
 ?>

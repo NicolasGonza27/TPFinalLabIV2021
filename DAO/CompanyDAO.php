@@ -1,203 +1,245 @@
 <?php
     namespace DAO;
 
-    use DAO\ICompanyDAO as IStudentDAO;
+    use PDOException;
+    use DAO\ICompanyDAO as ICompanyDAO;
     use Models\Company as Company;
+    use DAO\Connection as Connection;
 
     class CompanyDAO implements ICompanyDAO
     {
-        private $companyList;
-        private $fileName;
-
-
-        public function __construct()
-        {
-            $this->companyList = array();
-            $this->fileName = dirname(__DIR__)."/Data/companyes.json";
-        }
-
+        private $connection;
+        private $tableName = "company";
 
         public function Add(Company $company)
         {
-            $this->RetrieveData();
-            array_push($this->companyList, $company);
-            $this->SaveAll();
+            try
+            {
+                $query = "INSERT INTO ".$this->tableName." (companyId,fantasyName,cuil,phoneNumber,country,province,city,direction,active) 
+                VALUES (:companyId,:fantasyName,:cuil,:phoneNumber,:country,:province,:city,:direction,:active);";
+                
+                $parameters["companyId"] = $company->getCompanyId();
+                $parameters["fantasyName"] = $company->getFantasyName();
+                $parameters["cuil"] = $company->getCuil();
+                $parameters["phoneNumber"] = $company->getPhoneNumber();
+                $parameters["country"] = $company->getCountry();
+                $parameters["province"] = $company->getProvince();
+                $parameters["city"] = $company->getCity();
+                $parameters["direction"] = $company->getDirection();
+                $parameters["active"] = $company->getActive();
+
+                $this->connection = Connection::GetInstance();
+                
+                return $this->connection->ExecuteNonQuery($query,$parameters);
+               
+            }
+            catch(PDOException $e)
+            {   
+                throw new PDOException($e->getMessage());
+            }
+        }
+
+        public function GetAll(bool $active = true)
+        {
+            try
+            {
+                $query = "SELECT * FROM ".$this->tableName;
+
+                $parameters["active"] = $active;
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query,$parameters);
+
+                if($resultSet)
+                {
+                    $newResultSet = $this->mapear($resultSet);
+                
+                    return  $newResultSet;
+                }
+
+                return  false;
+            }
+            catch(PDOException $e)
+            {
+                throw new PDOException($e->getMessage());
+            }
+        }
+
+        public function GetOne($companyId)
+        {
+            try 
+            {
+                $query = "SELECT * FROM ".$this->tableName." WHERE (companyId = :companyId);";
+
+                $this->connection = Connection::GetInstance();
+                
+                $parameters['companyId'] = $companyId;
+
+                $resultSet = $this->connection->Execute($query,$parameters);
+
+                if($resultSet)
+                {
+                    $newResultSet = $this->mapear($resultSet);
+                
+                    return  $newResultSet[0];
+                }
+                
+                return false;
+
+            }
+            catch(PDOException $e)
+            {
+                throw new PDOException($e->getMessage());
+            }
+        }
+
+        public function GetOneByCuil($cuil)
+        {
+            try 
+            {
+                $query = "SELECT * FROM ".$this->tableName." WHERE (cuil = :cuil);";
+
+                $this->connection = Connection::GetInstance();
+                
+                $parameters['cuil'] = $cuil;
+
+                $resultSet = $this->connection->Execute($query,$parameters);
+
+                if($resultSet)
+                {
+                    $newResultSet = $this->mapear($resultSet);
+                
+                    return  $newResultSet[0];
+                }
+                
+                return false;
+
+            }
+            catch(PDOException $e)
+            {
+                throw new PDOException($e->getMessage());
+            }
+        }
+
+        public function GetOneByFantasyName($fantasyName)
+        {
+            try 
+            {
+                $query = "SELECT * FROM ".$this->tableName." WHERE (fantasyName = :fantasyName);";
+
+                $this->connection = Connection::GetInstance();
+                
+                $parameters['fantasyName'] = $fantasyName;
+
+                $resultSet = $this->connection->Execute($query,$parameters);
+
+                if($resultSet)
+                {
+                    $newResultSet = $this->mapear($resultSet);
+                
+                    return  $newResultSet[0];
+                }
+                
+                return false;
+
+            }
+            catch(PDOException $e)
+            {
+                throw new PDOException($e->getMessage());
+            }
         }
 
         public function Modify(Company $company)
         {
-            $this->RetrieveData();
-            $key = $this->returnKeyById($company->getCompanyId());
-            $this->companyList[$key] = $company;
-            $this->SaveAll();
+            try
+            {
+                $companyId = $company->getCompanyId();
+                $query = "UPDATE ".$this->tableName." SET fantasyName=:fantasyName,cuil=:cuil,phoneNumber=:phoneNumber,country=:country,province=:province,city=:city,direction=:direction,active=:active
+                
+                WHERE (companyId = :companyId);";
+
+                $this->connection = Connection::GetInstance();
+
+                $parameters["companyId"] = $companyId;
+                $parameters["fantasyName"] = $company->getFantasyName();
+                $parameters["cuil"] = $company->getCuil();
+                $parameters["phoneNumber"] = $company->getPhoneNumber();
+                $parameters["country"] = $company->getCountry();
+                $parameters["province"] = $company->getProvince();
+                $parameters["city"] = $company->getCity();
+                $parameters["direction"] = $company->getDirection();
+                $parameters["active"] = $company->getActive();
+
+                $cantRows = $this->connection->ExecuteNonQuery($query,$parameters);
+
+                return  $cantRows;
+
+            }
+            catch(PDOException $e)
+            {
+                throw new PDOException($e->getMessage());
+            }
         }
 
-        public function Delete($id) 
-        {
-            $this->RetrieveData();
-            $key = $this->returnKeyById($id);    
-             
-            $this->companyList[$key]->setActive(false);            
-            $this->SaveAll();
-        }
+        public function Delete($companyId)
+        {  
+            try 
+            {
+                $query = "UPDATE ".$this->tableName." SET active = :active  WHERE companyId = :companyId;";
 
-        /**
-         * $active_filtes int 1 for active companyes, 0 for inactive companyes 
-         */
-        public function GetAll($active_filter = 2)
-        {
-            $this->RetrieveData();
-            $companyList = [];
+                $this->connection = Connection::GetInstance();
 
-            if ($active_filter == 2) {
-                return $this->companyList;
+                $parameters['active'] = false;
+                $parameters['companyId'] = $companyId;
+
+                $cantRows = $this->connection->ExecuteNonQuery($query,$parameters);
+
+                return $cantRows;
+
             }
-            else if ($active_filter == 1) {
-                foreach ($this->companyList as $company) {
-                    if ($company->getActive() == true) {
-                        array_push($companyList, $company);
-                    }
-                }
+            catch(PDOException $e)
+            {
+                throw new PDOException($e->getMessage());
             }
-            else if ($active_filter == 0) {
-                foreach ($this->companyList as $company) {
-                    if ($company->getActive() == false) {
-                        array_push($companyList, $company);
-                    }
-                }
-            }
-
-            return $companyList;
-        }
-
-        
-        public function returnLastId()
-        {
-            $this->RetrieveData();
-
-            $id = 0;
-
-            foreach($this->companyList as $company)
-            {   
-                $id = $company->getCompanyId();
-            }
-
-            return $id;
-        }
-
-        public function returnKeyById($id)
-        {
-            $this->RetrieveData();
-
-            foreach($this->companyList as $key=>$company)
-            {  
-                if($company->getCompanyId() == $id)
-                {
-                    return $key;
-                }
-            }
-            
-            return false;
-        }
-
-        public function returnCompanyById($id)
-        {
-            $this->RetrieveData();
-
-            foreach($this->companyList as $company)
-            {  
-                if($company->getCompanyId() == $id)
-                {
-                    return $company;
-                }
-            }
-            
-            return false;
         }
         
         public function SearchCompany($fantasyName)
         {
-            $this->RetrieveData();
-            $companyList = [];
-
-            foreach($this->companyList as $company)
+            try 
             {
-                if (stristr($company->getFantasyName(), strval($fantasyName)) === FALSE) {
-                    continue;
-                }
-                if (!$company->getActive()) {
-                    continue;
-                }
+                $query = "SELECT * FROM ".$this->tableName." WHERE LOCATE(:fantasyName,fantasyName)>0;";
 
-                array_push($companyList, $company);
-            }
-        
-            return count($companyList) > 0 ? $companyList : false;
-        }
+                $this->connection = Connection::GetInstance();
 
-        public function SearchCompanyBoolean($fantasyName)
-        {
-            $this->RetrieveData();
+                $parameters['fantasyName'] = $fantasyName;
+                
+                $resultSet = $this->connection->Execute($query,$parameters);
 
-            foreach($this->companyList as $company)
-            {
-                if($company->getFantasyName() == $fantasyName)
+                if($resultSet)
                 {
-                    return true;
+                    $newResultSet = $this->mapear($resultSet);
+                
+                    return  $newResultSet;
                 }
-            }
+                
+                return false;
 
-            return false;
+            }
+            catch(PDOException $e)
+            {
+                throw new PDOException($e->getMessage());
+            }
         }
 
-        private function SaveAll()
-        {
-            $arrayToEncode = array();
-
-            foreach($this->companyList as $company)
+        protected function mapear($companyes)
+        {   
+            $resp = array_map(function($p)
             {
-                $valuesArray["companyId"] = $company->getCompanyId();
-                $valuesArray["fantasyName"] = $company->getFantasyName();
-                $valuesArray["cuil"] = $company->getCuil();
-                $valuesArray["phoneNumber"] = $company->getPhoneNumber();
-                $valuesArray["country"] = $company->getCountry();
-                $valuesArray["province"] = $company->getProvince();
-                $valuesArray["city"] = $company->getCity();
-                $valuesArray["direction"] = $company->getDirection();
-                $valuesArray["active"] = $company->getActive();
+                return new Company($p['companyId'],$p['fantasyName'],$p['cuil'],$p['phoneNumber'],$p['country'],$p['province'],$p['city'],$p['direction'],$p['active']);
+            }, $companyes);
 
-                array_push($arrayToEncode, $valuesArray);
-            }
-
-            $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-            file_put_contents($this->fileName, $jsonContent);
-        }
-        
-        private function RetrieveData()
-        {
-            $this->companyList = array();
-
-            if(file_exists($this->fileName))
-            {
-                $jsonContent = file_get_contents($this->fileName);
-                $arrayToDecode = ($jsonContent) ? json_decode($jsonContent,true) : array();
-
-                foreach($arrayToDecode as $valuesArray)
-                {
-                    $companyId = $valuesArray["companyId"];
-                    $fantasyName = $valuesArray["fantasyName"];
-                    $cuil = $valuesArray["cuil"];
-                    $phoneNumber = $valuesArray["phoneNumber"];
-                    $country = $valuesArray["country"];
-                    $province = $valuesArray["province"];
-                    $city =  $valuesArray["city"];
-                    $direction =  $valuesArray["direction"];
-                    $active = $valuesArray["active"];
-
-                    $company = new Company($companyId, $fantasyName, $cuil, $phoneNumber, $country, $province, $city, $direction, $active);
-                    array_push($this->companyList, $company);
-                }
-            }
+            return $resp;
         }
     }
 ?>

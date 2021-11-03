@@ -126,6 +126,38 @@
             }
         }
 
+        public function GetOneByDni($dni) {
+
+            $response = file_get_contents($this->apiDirection, false, $this->context);
+            $arrayToDecode = json_decode($response, true);
+            $student = false;
+
+            if (!empty($arrayToDecode)) {
+
+                foreach ($arrayToDecode as $studentInArray) {
+                    if ($studentInArray["dni"] != $dni) {
+                        continue;
+                    }
+
+                    $studentId = $studentInArray["studentId"]; 
+                    $careerId = $studentInArray["careerId"];
+                    $firstName = $studentInArray["firstName"];
+                    $lastName = $studentInArray["lastName"];
+                    $dni = $studentInArray["dni"];
+                    $fileNumber = $studentInArray["fileNumber"];
+                    $gender = $studentInArray["gender"];
+                    $birthDate = date($studentInArray["birthDate"]);
+                    $email = $studentInArray["email"];
+                    $phoneNumber = $studentInArray["phoneNumber"];
+                    $active = $studentInArray["active"];
+                    
+                    return $student = new Student($studentId, $careerId, $firstName, $lastName, $dni, $fileNumber, $gender, $birthDate, $email, $phoneNumber, $active);
+                }
+                
+                return $student;
+            }
+        }
+
         public function RetrieveData() {
 
             $response = file_get_contents($this->apiDirection, false, $this->context);
