@@ -29,3 +29,5 @@ CREATE TABLE `company` (
   `active` TINYINT NOT NULL,
   PRIMARY KEY (`companyId`)
   );
+  
+SELECT * FROM `country`;
