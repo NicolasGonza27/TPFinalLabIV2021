@@ -49,7 +49,12 @@
         }
 
         public function Add($fantasyName, $cuil, $phoneNumber,  $country, $province, $city, $direction) {
-            $company = new Company(rand(10000,99999),$fantasyName,$cuil,$phoneNumber,$country,$province,$city,$direction,true);
+
+            $nuevo_id = rand(100000,999999);
+            while($this->companyDAO->GetOne($nuevo_id) != false) {
+                $nuevo_id = rand(100000,999999);
+            }
+            $company = new Company($nuevo_id,$fantasyName,$cuil,$phoneNumber,$country,$province,$city,$direction,true);
 
             $this->companyDAO->Add($company);
 

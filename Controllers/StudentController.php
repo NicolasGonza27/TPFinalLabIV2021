@@ -56,7 +56,12 @@
 
         public function Add($firstName, $lastName, $dni, $fileNumber, $gender, $birthDate, $email, $phoneNumber)
         {
-            $student = new Student(rand(100000,99999), 0, $firstName, $lastName, $dni, $fileNumber, $gender, $birthDate, $email, $phoneNumber, true);
+            $nuevo_id = rand(100000,999999);
+            while($this->studentDAO->GetOne($nuevo_id) != false) {
+                $nuevo_id = rand(100000,999999);
+            }
+
+            $student = new Student($nuevo_id, 0, $firstName, $lastName, $dni, $fileNumber, $gender, $birthDate, $email, $phoneNumber, true);
             $error = 0;
             if ($this->studentDAO->GetOneByEmail($email) || $this->apiStudentDAO->GetOneByEmail($email)) {
                 $error = 1;
