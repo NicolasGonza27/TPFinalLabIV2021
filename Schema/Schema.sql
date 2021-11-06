@@ -29,5 +29,18 @@ CREATE TABLE `company` (
   `active` TINYINT NOT NULL,
   PRIMARY KEY (`companyId`)
   );
+
+CREATE TABLE `joboffer` (
+  `jobOfferId` int(11) NOT NULL,
+  `description` varchar(45) NOT NULL,
+  `publicationDate` date NOT NULL,
+  `expirationDate` date NOT NULL,
+  `requirements` varchar(70) NOT NULL,
+  `workload` varchar(45) NOT NULL,
+  `jobPositionId` int(11) NOT NULL,
+  `companyId` int(11) NOT NULL,
+  `active` tinyint(4) NOT NULL,
+  PRIMARY KEY (`jobOfferId`)
+)
   
-SELECT * FROM `country`;
+SELECT * FROM `company`;

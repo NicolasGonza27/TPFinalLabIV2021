@@ -15,18 +15,18 @@
 // 	use DAOmysql\Connection as Connection;
 // 	use DAO\StudentDAO as StudentDAO;
 //  use Models\Student;
-	use API\ApiJobPositionDAO as ApiJobPositionDAO;
-	use Models\JobPosition;
+	// use API\ApiJobPositionDAO as ApiJobPositionDAO;
+	// use Models\JobPosition;
 
-Autoload::start();
+	Autoload::start();
 
-	// session_start();
+	session_start();
 
-	// require_once(VIEWS_PATH."header.php");
+	require_once(VIEWS_PATH."header.php");
 
-	// Router::Route(new Request());
+	Router::Route(new Request());
 
-	// require_once(VIEWS_PATH."footer.php");
+	require_once(VIEWS_PATH."footer.php");
 
 	// $tableName = "company";
 	// $query = "SELECT * FROM ".$tableName.";";
@@ -39,10 +39,10 @@ Autoload::start();
 	// $studentDAO->Add($student);
 	// $resultSet = $studentDAO->GetAll();
 
-	$apiJobPositionDAO = new ApiJobPositionDAO();
-	$resultSet = $apiJobPositionDAO->GetOne(2);
+	// $apiJobPositionDAO = new ApiJobPositionDAO();
+	// $resultSet = $apiJobPositionDAO->GetOne(2);
 
-	var_dump($resultSet);
+	// var_dump($resultSet);
 
 	// $options = array(
 	// 	'http' => array(
