@@ -9,11 +9,12 @@
         private $expirationDate;
         private $requirements;
         private $workload; //carga horaria
+        private $careerId;
         private $jobPositionId;
         private $companyId;
         private $active;
 
-        public function __construct($jobOfferId = null, $description = null, $publicationDate = null, $expirationDate = null, $requirements = null, $workload = null, $jobPositionId = null, $companyId = null, $active = null)
+        public function __construct($jobOfferId = null, $description = null, $publicationDate = null, $expirationDate = null, $requirements = null, $workload = null, $careerId = null, $jobPositionId = null, $companyId = null, $active = null)
         {
             $this->jobOfferId = $jobOfferId;
             $this->description = $description;
@@ -21,6 +22,7 @@
             $this->expirationDate = $expirationDate;
             $this->requirements = $requirements;
             $this->workload = $workload;
+            $this->careerId = $careerId;
             $this->jobPositionId = $jobPositionId;
             $this->companyId = $companyId;
             $this->active = $active;
@@ -202,6 +204,26 @@
         public function setActive($active)
         {
                 $this->active = $active;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of careerId
+         */ 
+        public function getCareerId()
+        {
+                return $this->careerId;
+        }
+
+        /**
+         * Set the value of careerId
+         *
+         * @return  self
+         */ 
+        public function setCareerId($careerId)
+        {
+                $this->careerId = $careerId;
 
                 return $this;
         }

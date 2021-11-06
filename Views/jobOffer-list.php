@@ -1,4 +1,5 @@
 <?php
+    $careerList = "";
     $jobPositionList = "";
     $companyList = "";
     if (isset($_SESSION["student"])) {
@@ -6,6 +7,7 @@
     }
     else {
         require_once('admin-nav.php');
+        $careerList = $careerDAO->GetAll();
         $jobPositionList = $jobPositionDAO->GetAll();
         $companyList = $companyDAO->GetAll();
     }
@@ -15,14 +17,30 @@
     <section id="listado" class="mb-5">
         <div class="container">
             <div class="d-flex justify-content-end">
-                <div class="col-lg-4">
-                    <form action="<?= FRONT_ROOT ?>JobOffer/ShowJobOfferListView" method="post">
+                <form action="<?= FRONT_ROOT ?>JobOffer/ShowJobOfferListView" method="post">
+                    <div class="col-lg-4">
                         <div class="d-flex align-item-center">
-                            <input type="text" class="flex-grow-1" name="description" value="<?=($description ? $description : "")?>">
-                            <button type="submit" title="Search" class="btn" style="margin-left: 3px;"><i class="fas fa-search"></i></button>
+                            <select id="career_busqueda" name="careerId" class="" value="" style="width:200px">
+                                <option value="" <?=($careerId == "" ? " selected" : "")?>>Select Career...</option>
+                                <?php foreach($careerList as $career) { ?>
+                                    <option value="<?=$career->getCareerId()?>" <?=($careerId == $career->getCareerId() ? " selected" : "")?>>
+                                        <?=$career->getDescription()?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                            <select id="job_position_busqueda" name="jobPositionId" class="ml-3" value="" style="width:200px">
+                                <option value="" <?=($jobPositionId == "" ? " selected" : "")?>>Select Job Position...</option>
+                                <?php foreach($jobPositionList as $jobPosition) { ?>
+                                    <option value="<?=$jobPosition->getJobPositionId()?>" <?=($jobPositionId == $jobPosition->getJobPositionId() ? " selected" : "")?>>
+                                        <?=$jobPosition->getDescription()?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                            <input id="descripcion_busqueda" type="text" placeholder="Serch Description" class="ml-3" name="description" value="<?=($description != "" ? $description : "")?>" style="width:200px">
+                            <button type="submit" title="Search" class="btn flex-grow-0 ml-3"><i class="fas fa-search"></i></button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
             <h2 class="mb-4">Job Offers List</h2>
 
@@ -30,8 +48,7 @@
                 <thead class="">
                     <tr>
                         <th class="text-center">Description</th>
-                        <th class="text-center">Publication Date</th>
-                        <th class="text-center">Expiration Date</th><!-- requirements en detalles -->
+                        <th class="text-center">Publication/Expiration Date</th><!-- requirements en detalles -->
                         <th class="text-center">Workload</th>
                         <th class="text-center">Job Position</th><!-- career en detalles -->
                         <th class="text-center">Company</th>
@@ -46,16 +63,15 @@
                                 $company = $companyDAO->GetOne($jobOffer->getCompanyId());
                     ?>
                         <tr>
-                            <td class="text-center">
+                            <td class="text-left">
                                 <input class="jobOfferId hidden" value="<?= $jobOffer->getJobOfferId() ?>"/>
                                 <input class="requirements hidden" value="<?= $jobOffer->getRequirements() ?>"/>
                                 <span class="description"><?= $jobOffer->getDescription() ?></span>
                             </td>
                             <td class="text-center">
-                                <span class="publicationDate"><?= $jobOffer->getPublicationDate() ?></span>
-                            </td>
-                            <td class="text-center">
-                                <span class="expirationDate"><?= $jobOffer->getExpirationDate() ?></span>
+                                <span class=""><?= $jobOffer->getPublicationDate() ?>/<?= $jobOffer->getExpirationDate() ?></span>
+                                <input class="publicationDate hidden" value="<?= $jobOffer->getPublicationDate() ?>"/>
+                                <input class="expirationDate hidden" value="<?= $jobOffer->getExpirationDate() ?>"/>
                             </td>
                             <td class="text-center">
                                 <span class="workload"><?= $jobOffer->getWorkload() ?></span>hs
@@ -189,30 +205,49 @@
 <?php require_once(VIEWS_PATH . "footer.php"); ?>
 
 <script>
-     $(document).ready(function() {
-          $(".button-modal-edit").click(
-               function () {
-                    var $row = $(this).closest("tr");
-                    $("#modal_edit_title").text("Edit Job Offer: " + $row.find(".description").text());
-                    
-                    $("#job_offer_id_edit").val($row.find(".jobOfferId").val());
-                    $("#description_edit").val($row.find(".description").text());
-                    $("#publication_date_edit").val($row.find(".publicationDate").text());
-                    $("#expiration_date_edit").val($row.find(".expirationDate").text());
-                    $("#requirements_edit").val($row.find(".requirements").val());
-                    $("#workload_edit").val($row.find(".workload").text());
-                    $("#job_position_id_edit option[value='"+ $row.find('.jobPositionId').data('id') +"']").attr("selected",true);
-                    $("#company_id_edit option[value='"+ $row.find(".companyId").data("id") +"']").attr("selected",true);
-               }
-          );
+    $(document).ready(function() {
+        $("#job_position_busqueda").change(
+            function () {
+                $("#career_busqueda").val("");
+                $("#descripcion_busqueda").val("");
+            }
+        );
+        $("#descripcion_busqueda").change(
+            function () {
+                $("#career_busqueda").val("");
+                $("#job_position_busqueda").val("");
+            }
+        );
+        $("#career_busqueda").change(
+            function () {
+                $("#job_position_busqueda").val("");
+                $("#descripcion_busqueda").val("");
+            }
+        );
 
-          $(".button-modal-delete").click(
-               function () {
-                    var $row = $(this).closest("tr");
+        $(".button-modal-edit").click(
+            function () {
+                var $row = $(this).closest("tr");
+                $("#modal_edit_title").text("Edit Job Offer: " + $row.find(".description").text());
+                
+                $("#job_offer_id_edit").val($row.find(".jobOfferId").val());
+                $("#description_edit").val($row.find(".description").text());
+                $("#publication_date_edit").val($row.find(".publicationDate").val());
+                $("#expiration_date_edit").val($row.find(".expirationDate").val());
+                $("#requirements_edit").val($row.find(".requirements").val());
+                $("#workload_edit").val($row.find(".workload").text());
+                $("#job_position_id_edit option[value='"+ $row.find('.jobPositionId').data('id') +"']").attr("selected",true);
+                $("#company_id_edit option[value='"+ $row.find(".companyId").data("id") +"']").attr("selected",true);
+            }
+        );
 
-                    $("#job_offer_name_todelete").text($row.find(".description").text());
-                    $("#job_offer_id_todelete").val($row.find(".jobOfferId").val());
-               }
-          );
-     });
+        $(".button-modal-delete").click(
+            function () {
+                var $row = $(this).closest("tr");
+
+                $("#job_offer_name_todelete").text($row.find(".description").text());
+                $("#job_offer_id_todelete").val($row.find(".jobOfferId").val());
+            }
+        );
+    });
 </script>
