@@ -3,9 +3,11 @@
 
     use DAO\JobOfferDAO as JobOfferDAO;
     use DAO\CompanyDAO as CompanyDAO;
+    use DAO\PostulationDAO as PostulationDAO;
     use API\ApiJobPositionDAO as ApiJobPositionDAO;
     use API\ApiCareerDAO as ApiCareerDAO;
     use Models\JobOffer as JobOffer;
+    use Models\Student as Student;
 
     class JobOfferController
     {
@@ -16,6 +18,7 @@
 
         public function __construct()
         {
+            $this->postulationDAO = new PostulationDAO();
             $this->jobOfferDAO = new JobOfferDAO();
             $this->companyDAO = new CompanyDAO();
             $this->apiJobPositionDAO = new ApiJobPositionDAO();
@@ -32,6 +35,18 @@
             if (!$jobOfferId) {
 
             }
+            $already_post = false;
+            if (isset($_SESSION["student"])) {
+                $student = $_SESSION["student"];
+                $postulationStudentList = $this->postulationDAO->GetAllByStudentId($student->getStudentId());
+                if ($postulationStudentList) {
+                    foreach ($postulationStudentList as $postulation) {
+                        if ($postulation->getJobOfferId() == $jobOfferId) {
+                            $already_post = true;
+                        }
+                    }
+                }
+            }
 
             $jobOffer = $this->jobOfferDAO->GetOne($jobOfferId);
             $jobPosition = $this->apiJobPositionDAO->GetOne($jobOffer->getJobPositionId());
@@ -40,36 +55,55 @@
             require_once(VIEWS_PATH."jobOffer-info.php");
         }
         
-        public function ShowJobOfferListView($description = null) {
+        public function ShowJobOfferListView($careerId = "", $jobPositionId = "", $description = "") {
+            $careerDAO = $this->apiCareerDAO;
             $jobPositionDAO = $this->apiJobPositionDAO;
             $companyDAO = $this->companyDAO;
-
-            if (!$description) {
+            
+            if ($careerId == "" && $jobPositionId == "" && $description == "") {
                 $jobOfferList = $this->jobOfferDAO->GetAll(true);
                 require_once(VIEWS_PATH."jobOffer-list.php");
                 return;
             }
-            
-            $jobOfferList = $this->jobOfferDAO->SearchJobOffer($description);
-            require_once(VIEWS_PATH."jobOffer-list.php");
+            if ($careerId == "" && $jobPositionId == "" && $description) {
+                $jobOfferList = $this->jobOfferDAO->SearchJobOffer($description);
+                require_once(VIEWS_PATH."jobOffer-list.php");
+                return;
+            }
+            if ($careerId == "" && $jobPositionId && $description == "") {
+                $jobOfferList = $this->jobOfferDAO->GetAllByJobPositionId($jobPositionId);
+                require_once(VIEWS_PATH."jobOffer-list.php");
+                return;
+            }
+            if ($careerId && $jobPositionId == "" && $description == "") {
+                $jobOfferList = $this->jobOfferDAO->GetAllByCareerId($careerId);
+                require_once(VIEWS_PATH."jobOffer-list.php");
+                return;
+            }
         }
 
-        public function ShowJobOfferListStudentView($jobPositionId = "", $description = "") {
+        public function ShowJobOfferListStudentView($careerId = "", $jobPositionId = "", $description = "") {
+            $careerDAO = $this->apiCareerDAO;
             $jobPositionDAO = $this->apiJobPositionDAO;
             $companyDAO = $this->companyDAO;
             
-            if ($description == "" && $jobPositionId == "") {
+            if ($careerId == "" && $jobPositionId == "" && $description == "") {
                 $jobOfferList = $this->jobOfferDAO->GetAll(true);
                 require_once(VIEWS_PATH."jobOffer-student-list.php");
                 return;
             }
-            if ($description && $jobPositionId == "") {
+            if ($careerId == "" && $jobPositionId == "" && $description) {
                 $jobOfferList = $this->jobOfferDAO->SearchJobOffer($description);
                 require_once(VIEWS_PATH."jobOffer-student-list.php");
                 return;
             }
-            if ($description == "" && $jobPositionId) {
+            if ($careerId == "" && $jobPositionId && $description == "") {
                 $jobOfferList = $this->jobOfferDAO->GetAllByJobPositionId($jobPositionId);
+                require_once(VIEWS_PATH."jobOffer-student-list.php");
+                return;
+            }
+            if ($careerId && $jobPositionId == "" && $description == "") {
+                $jobOfferList = $this->jobOfferDAO->GetAllByCareerId($careerId);
                 require_once(VIEWS_PATH."jobOffer-student-list.php");
                 return;
             }
@@ -81,7 +115,9 @@
             while($this->jobOfferDAO->GetOne($nuevo_id) != false) {
                 $nuevo_id = rand(100000,999999);
             }
-            $jobOffer = new JobOffer($nuevo_id,$description,$publicationDate,$expirationDate,$requirements,$workload,$jobPositionId,$companyId,true);
+            $jobPosition = $this->apiJobPositionDAO->GetOne($jobPositionId);
+            $careerId = $jobPosition->getCareerId();
+            $jobOffer = new JobOffer($nuevo_id,$description,$publicationDate,$expirationDate,$requirements,$workload,$careerId,$jobPositionId,$companyId,true);
 
             $this->jobOfferDAO->Add($jobOffer);
 
@@ -89,6 +125,8 @@
         }
 
         public function ModifyJobOffer($jobOfferId, $description, $publicationDate, $expirationDate,  $requirements, $workload, $jobPositionId, $companyId) {
+            $jobPosition = $this->apiJobPositionDAO->GetOne($jobPositionId);
+            $careerId = $jobPosition->getCareerId();
             $jobOffer = new JobOffer();
             $jobOffer = $this->jobOfferDAO->GetOne($jobOfferId);
 
@@ -97,6 +135,7 @@
             $jobOffer->setExpirationDate($expirationDate);
             $jobOffer->setRequirements($requirements);
             $jobOffer->setWorkload($workload);
+            $jobOffer->setCareerId($careerId);
             $jobOffer->setJobPositionId($jobPositionId);
             $jobOffer->setCompanyId($companyId);
 

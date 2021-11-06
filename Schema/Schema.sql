@@ -41,6 +41,16 @@ CREATE TABLE `joboffer` (
   `companyId` int(11) NOT NULL,
   `active` tinyint(4) NOT NULL,
   PRIMARY KEY (`jobOfferId`)
-)
+);
+
+CREATE TABLE `postulation` (
+  `postulationId` INT NOT NULL,
+  `jobOfferId` INT NOT NULL,
+  `studentId` INT NOT NULL,
+  `studentFullName` varchar(25) NOT NULL,
+  `postulationDate` DATE NOT NULL,
+  `active` TINYINT NOT NULL,
+  PRIMARY KEY (`postulationId`)
+  );
   
 SELECT * FROM `company`;

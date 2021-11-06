@@ -1,5 +1,7 @@
 <?php
+    $student = "";
     if (isset($_SESSION["student"])) {
+        $student = $_SESSION["student"];
         require_once('student-nav.php');
     }
     else {
@@ -47,11 +49,26 @@
                                 <span class="col-lg-6">Company:</span>
                                 <span class="col-lg-6"><?= $company->getFantasyName() ?></span>
                             </div>
+                            <!-- ACA VA LO BUENOOOOOO   -->
+                            <?php if ($student != "" && !$already_post) { ?>
+                                <div class="d-flex justify-content-end">
+                                    <form action="<?php echo FRONT_ROOT . "Postulation/Add" ?>" method="post" class="row">
+                                        <input class="hidden" name="jobOfferId" value="<?= $jobOffer->getJobOfferId() ?>">
+                                        <input class="hidden" name="studentId" value="<?= $student->getStudentId() ?>">
+                                        <input class="hidden" name="studentFullName" value="<?= ($student->getFirstName() ." ". $student->getLastName()) ?>">
+                                        <input class="hidden" name="postulationDate" value="<?= date("Y-m-d") ?>">
+                                        <button type="submit" class="btn btn-success d-block mr-3">Postulate</button>
+                                    </form>
+                                </div>
+                            <?php } elseif ($already_post) {?>
+                                <div class="d-flex justify-content-end">
+                                    <span class=""><i class="fas fa-check mr-3"></i>Inscripted</span>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
-            </div> 
-            <!-- ACA VA LO BUENOOOOOO   -->
+            </div>
         </div>
     </section>
 </main>

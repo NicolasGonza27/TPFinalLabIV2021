@@ -2,31 +2,27 @@
     namespace DAO;
 
     use PDOException;
-    use Models\JobOffer as JobOffer;
+    use Models\Postulation as Postulation;
     use DAO\Connection as Connection;
 
-    class JobOfferDAO
+    class PostulationDAO
     {
         private $connection;
-        private $tableName = "joboffer";
+        private $tableName = "postulation";
 
-        public function Add(JobOffer $jobOffer)
+        public function Add(Postulation $postulation)
         {
             try
             {
-                $query = "INSERT INTO ".$this->tableName." (jobOfferId,description,publicationDate,expirationDate,requirements,workload,careerId,jobPositionId,companyId,active) 
-                VALUES (:jobOfferId,:description,:publicationDate,:expirationDate,:requirements,:workload,:careerId,:jobPositionId,:companyId,:active);";
+                $query = "INSERT INTO ".$this->tableName." (postulationId,jobOfferId,studentId,studentFullName,postulationDate,active) 
+                VALUES (:postulationId,:jobOfferId,:studentId,:studentFullName,:postulationDate,:active);";
                 
-                $parameters["jobOfferId"] = $jobOffer->getJobOfferId();
-                $parameters["description"] = $jobOffer->getDescription();
-                $parameters["publicationDate"] = $jobOffer->getPublicationDate();
-                $parameters["expirationDate"] = $jobOffer->getExpirationDate();
-                $parameters["requirements"] = $jobOffer->getRequirements();
-                $parameters["workload"] = $jobOffer->getWorkload();
-                $parameters["careerId"] = $jobOffer->getCareerId();
-                $parameters["jobPositionId"] = $jobOffer->getJobPositionId();
-                $parameters["companyId"] = $jobOffer->getCompanyId();
-                $parameters["active"] = $jobOffer->getActive();
+                $parameters["postulationId"] = $postulation->getPostulationId();
+                $parameters["jobOfferId"] = $postulation->getJobOfferId();
+                $parameters["studentId"] = $postulation->getStudentId();
+                $parameters["studentFullName"] = $postulation->getStudentFullName();
+                $parameters["postulationDate"] = $postulation->getPostulationDate();
+                $parameters["active"] = $postulation->getActive();
 
                 $this->connection = Connection::GetInstance();
                 
@@ -66,15 +62,15 @@
             }
         }
 
-        public function GetOne($jobOfferId)
+        public function GetOne($postulationId)
         {
             try 
             {
-                $query = "SELECT * FROM ".$this->tableName." WHERE (jobOfferId = :jobOfferId);";
+                $query = "SELECT * FROM ".$this->tableName." WHERE (postulationId = :postulationId);";
 
                 $this->connection = Connection::GetInstance();
                 
-                $parameters['jobOfferId'] = $jobOfferId;
+                $parameters['postulationId'] = $postulationId;
 
                 $resultSet = $this->connection->Execute($query,$parameters);
 
@@ -94,15 +90,15 @@
             }
         }
 
-        public function GetAllByJobPositionId($jobPositionId)
+        public function GetAllByJobOfferId($jobOfferId)
         {
             try 
             {
-                $query = "SELECT * FROM ".$this->tableName." WHERE (jobPositionId = :jobPositionId) AND (true=active);";
+                $query = "SELECT * FROM ".$this->tableName." WHERE (jobOfferId = :jobOfferId) AND (true=active);";
 
                 $this->connection = Connection::GetInstance();
                 
-                $parameters['jobPositionId'] = $jobPositionId;
+                $parameters['jobOfferId'] = $jobOfferId;
 
                 $resultSet = $this->connection->Execute($query,$parameters);
 
@@ -122,15 +118,15 @@
             }
         }
         
-        public function GetAllByCareerId($careerId)
+        public function GetAllByStudentId($studentId)
         {
             try 
             {
-                $query = "SELECT * FROM ".$this->tableName." WHERE (careerId = :careerId) AND (true=active);";
+                $query = "SELECT * FROM ".$this->tableName." WHERE (studentId = :studentId) AND (true=active);";
 
                 $this->connection = Connection::GetInstance();
                 
-                $parameters['careerId'] = $careerId;
+                $parameters['studentId'] = $studentId;
 
                 $resultSet = $this->connection->Execute($query,$parameters);
 
@@ -178,27 +174,23 @@
             }
         }
         
-        public function Modify(JobOffer $jobOffer)
+        public function Modify(Postulation $postulation)
         {
             try
             {
-                $jobOfferId = $jobOffer->getJobOfferId();
-                $query = "UPDATE ".$this->tableName." SET description=:description,publicationDate=:publicationDate,expirationDate=:expirationDate,requirements=:requirements,workload=:workload,careerId=:careerId,jobPositionId=:jobPositionId,companyId=:companyId,active=:active
+                $postulationId = $postulation->getPostulationId();
+                $query = "UPDATE ".$this->tableName." SET jobOfferId=:jobOfferId,studentId=:studentId,studentFullName=:studentFullName,postulationDate=:postulationDate,active=:active
                 
-                WHERE (jobOfferId = :jobOfferId);";
+                WHERE (postulationId = :postulationId);";
 
                 $this->connection = Connection::GetInstance();
 
-                $parameters["jobOfferId"] = $jobOfferId;
-                $parameters["description"] = $jobOffer->getDescription();
-                $parameters["publicationDate"] = $jobOffer->getPublicationDate();
-                $parameters["expirationDate"] = $jobOffer->getExpirationDate();
-                $parameters["requirements"] = $jobOffer->getRequirements();
-                $parameters["workload"] = $jobOffer->getWorkload();
-                $parameters["careerId"] = $jobOffer->getCareerId();
-                $parameters["jobPositionId"] = $jobOffer->getJobPositionId();
-                $parameters["companyId"] = $jobOffer->getCompanyId();
-                $parameters["active"] = $jobOffer->getActive();
+                $parameters["postulationId"] = $postulationId;
+                $parameters["jobOfferId"] = $postulation->getJobOfferId();
+                $parameters["studentId"] = $postulation->getStudentId();
+                $parameters["studentFullName"] = $postulation->getStudentFullName();
+                $parameters["postulationDate"] = $postulation->getPostulationDate();
+                $parameters["active"] = $postulation->getActive();
 
                 $cantRows = $this->connection->ExecuteNonQuery($query,$parameters);
 
@@ -211,16 +203,16 @@
             }
         }
 
-        public function Delete($jobOfferId)
+        public function Delete($postulationId)
         {  
             try 
             {
-                $query = "UPDATE ".$this->tableName." SET active = :active  WHERE jobOfferId = :jobOfferId;";
+                $query = "UPDATE ".$this->tableName." SET active = :active  WHERE postulationId = :postulationId;";
 
                 $this->connection = Connection::GetInstance();
 
                 $parameters['active'] = false;
-                $parameters['jobOfferId'] = $jobOfferId;
+                $parameters['postulationId'] = $postulationId;
 
                 $cantRows = $this->connection->ExecuteNonQuery($query,$parameters);
 
@@ -233,15 +225,15 @@
             }
         }
         
-        public function SearchJobOffer($description)
+        public function SearchPostulationStudentFullName($studentFullName)
         {
             try 
             {
-                $query = "SELECT * FROM ".$this->tableName." WHERE LOCATE(:description,description)>0 AND (true=active);";
+                $query = "SELECT * FROM ".$this->tableName." WHERE LOCATE(:studentFullName,studentFullName)>0 AND (true=active);";
 
                 $this->connection = Connection::GetInstance();
 
-                $parameters['description'] = $description;
+                $parameters['studentFullName'] = $studentFullName;
                 
                 $resultSet = $this->connection->Execute($query,$parameters);
 
@@ -261,12 +253,12 @@
             }
         }
 
-        protected function mapear($jobOffers)
+        protected function mapear($postulation)
         {   
             $resp = array_map(function($p)
             {
-                return new JobOffer($p['jobOfferId'],$p['description'],$p['publicationDate'],$p['expirationDate'],$p['requirements'],$p['workload'],$p['careerId'],$p['jobPositionId'],$p['companyId'],$p['active']);
-            }, $jobOffers);
+                return new Postulation($p['postulationId'],$p['jobOfferId'],$p['studentId'],$p['studentFullName'],$p['postulationDate'],$p['active']);
+            }, $postulation);
 
             return $resp;
         }
