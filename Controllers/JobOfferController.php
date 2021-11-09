@@ -4,8 +4,8 @@
     use DAO\JobOfferDAO as JobOfferDAO;
     use DAO\CompanyDAO as CompanyDAO;
     use DAO\PostulationDAO as PostulationDAO;
-    use API\ApiJobPositionDAO as ApiJobPositionDAO;
-    use API\ApiCareerDAO as ApiCareerDAO;
+    use DAO\JobPositionDAO as JobPositionDAO;
+    use DAO\CareerDAO as CareerDAO;
     use Models\JobOffer as JobOffer;
     use Models\Student as Student;
 
@@ -13,20 +13,20 @@
     {
         private $jobOfferDAO;
         private $companyDAO;
-        private $apiJobPositionDAO;
-        private $apiCareerDAO;
+        private $jobPositionDAO;
+        private $careerDAO;
 
         public function __construct()
         {
             $this->postulationDAO = new PostulationDAO();
             $this->jobOfferDAO = new JobOfferDAO();
             $this->companyDAO = new CompanyDAO();
-            $this->apiJobPositionDAO = new ApiJobPositionDAO();
-            $this->apiCareerDAO = new ApiCareerDAO();
+            $this->jobPositionDAO = new JobPositionDAO();
+            $this->careerDAO = new CareerDAO();
         }
 
         public function ShowAddJobOfferView() {
-            $jobPositionList = $this->apiJobPositionDAO->GetAll();
+            $jobPositionList = $this->jobPositionDAO->GetAll();
             $companyList = $this->companyDAO->GetAll();
             require_once(VIEWS_PATH."jobOffer-add.php");
         }
@@ -49,15 +49,15 @@
             }
 
             $jobOffer = $this->jobOfferDAO->GetOne($jobOfferId);
-            $jobPosition = $this->apiJobPositionDAO->GetOne($jobOffer->getJobPositionId());
-            $career = $this->apiCareerDAO->GetOne($jobPosition->getCareerId());
+            $jobPosition = $this->jobPositionDAO->GetOne($jobOffer->getJobPositionId());
+            $career = $this->careerDAO->GetOne($jobPosition->getCareerId());
             $company = $this->companyDAO->GetOne($jobOffer->getCompanyId());
             require_once(VIEWS_PATH."jobOffer-info.php");
         }
         
         public function ShowJobOfferListView($careerId = "", $jobPositionId = "", $description = "") {
-            $careerDAO = $this->apiCareerDAO;
-            $jobPositionDAO = $this->apiJobPositionDAO;
+            $careerDAO = $this->careerDAO;
+            $jobPositionDAO = $this->jobPositionDAO;
             $companyDAO = $this->companyDAO;
             
             if ($careerId == "" && $jobPositionId == "" && $description == "") {
@@ -83,8 +83,8 @@
         }
 
         public function ShowJobOfferListStudentView($careerId = "", $jobPositionId = "", $description = "") {
-            $careerDAO = $this->apiCareerDAO;
-            $jobPositionDAO = $this->apiJobPositionDAO;
+            $careerDAO = $this->careerDAO;
+            $jobPositionDAO = $this->jobPositionDAO;
             $companyDAO = $this->companyDAO;
             
             if ($careerId == "" && $jobPositionId == "" && $description == "") {
@@ -115,7 +115,7 @@
             while($this->jobOfferDAO->GetOne($nuevo_id) != false) {
                 $nuevo_id = rand(100000,999999);
             }
-            $jobPosition = $this->apiJobPositionDAO->GetOne($jobPositionId);
+            $jobPosition = $this->jobPositionDAO->GetOne($jobPositionId);
             $careerId = $jobPosition->getCareerId();
             $jobOffer = new JobOffer($nuevo_id,$description,$publicationDate,$expirationDate,$requirements,$workload,$careerId,$jobPositionId,$companyId,true);
 
@@ -125,7 +125,7 @@
         }
 
         public function ModifyJobOffer($jobOfferId, $description, $publicationDate, $expirationDate,  $requirements, $workload, $jobPositionId, $companyId) {
-            $jobPosition = $this->apiJobPositionDAO->GetOne($jobPositionId);
+            $jobPosition = $this->jobPositionDAO->GetOne($jobPositionId);
             $careerId = $jobPosition->getCareerId();
             $jobOffer = new JobOffer();
             $jobOffer = $this->jobOfferDAO->GetOne($jobOfferId);

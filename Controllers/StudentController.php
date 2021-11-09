@@ -2,18 +2,15 @@
     namespace Controllers;
 
     use DAO\StudentDAO as StudentDAO;
-    use API\ApiStudentDAO as ApiStudentDAO;
     use Models\Student as Student;
 
     class StudentController
     {
         private $studentDAO;
-        private $apiStudentDAO;
 
         public function __construct()
         {
             $this->studentDAO = new StudentDAO();
-            $this->apiStudentDAO = new ApiStudentDAO();
         }
 
         public function ShowAddView()
@@ -39,12 +36,8 @@
         }
 
         public function checkStudentEmail($email) {
-            $student = $this->apiStudentDAO->GetOneByEmail($email);
-            if (!$student) {
-                $student = $this->studentDAO->GetOneByEmail($email);
-            }
+            $student = $this->studentDAO->GetOneByEmail($email);
             
-
             if (!$student) {
                 require_once(VIEWS_PATH."home.php");
             }
@@ -63,10 +56,10 @@
 
             $student = new Student($nuevo_id, 0, $firstName, $lastName, $dni, $fileNumber, $gender, $birthDate, $email, $phoneNumber, true);
             $error = 0;
-            if ($this->studentDAO->GetOneByEmail($email) || $this->apiStudentDAO->GetOneByEmail($email)) {
+            if ($this->studentDAO->GetOneByEmail($email)) {
                 $error = 1;
             }
-            if ($this->studentDAO->GetOneByDni($dni) || $this->apiStudentDAO->GetOneByDni($dni)) {
+            if ($this->studentDAO->GetOneByDni($dni)) {
                 $error = 1;
             }
 

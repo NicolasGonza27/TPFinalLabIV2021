@@ -11,12 +11,21 @@
 	use Config\Autoload as Autoload;
 	use Config\Router 	as Router;
 	use Config\Request 	as Request;
-// 	use DAOmysql\QueryType as QueryType;
-// 	use DAOmysql\Connection as Connection;
-// 	use DAO\StudentDAO as StudentDAO;
-//  use Models\Student;
-	// use API\ApiJobPositionDAO as ApiJobPositionDAO;
+	// NO COMENTAR LO DE ARRIBA
+
+	// use DAOmysql\QueryType as QueryType;
+	// use DAOmysql\Connection as Connection;
+	// use Models\Student;
 	// use Models\JobPosition;
+	// use Models\Career;
+	// use DAO\StudentDAO as StudentDAO;
+	// use DAO\JobPositionDAO as JobPositionDAO;
+	// use DAO\CareerDAO as CareerDAO;
+	// use API\ApiStudentDAO as ApiStudentDAO;
+	// use API\ApiJobPositionDAO as ApiJobPositionDAO;
+	// use API\ApiCareerDAO as ApiCareerDAO;
+	
+	
 
 	Autoload::start();
 
@@ -27,6 +36,12 @@
 	Router::Route(new Request());
 
 	require_once(VIEWS_PATH."footer.php");
+
+	// $arrayStudentsApi = (new ApiCareerDAO)->GetAll();
+	// $studenDAO = new CareerDAO;
+	// foreach ($arrayStudentsApi as $student) {
+	// 	$studenDAO->Add($student);
+	// }
 
 	// $tableName = "company";
 	// $query = "SELECT * FROM ".$tableName.";";

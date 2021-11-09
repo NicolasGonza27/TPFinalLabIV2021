@@ -3,38 +3,35 @@
 
     use DAO\JobOfferDAO as JobOfferDAO;
     use DAO\CompanyDAO as CompanyDAO;
-    use API\ApiJobPositionDAO as ApiJobPositionDAO;
-    use API\ApiCareerDAO as ApiCareerDAO;
+    use DAO\JobPositionDAO as JobPositionDAO;
+    use DAO\CareerDAO as CareerDAO;
     use Models\JobOffer as JobOffer;
     use DAO\PostulationDAO as PostulationDAO;
     use Models\Postulation as Postulation;
     use DAO\StudentDAO as StudentDAO;
-    use API\ApiStudentDAO as ApiStudentDAO;
     use Models\Student as Student;
 
     class PostulationController
     {
         private $jobOfferDAO;
         private $companyDAO;
-        private $apiJobPositionDAO;
-        private $apiCareerDAO;
+        private $jobPositionDAO;
+        private $careerDAO;
         private $postulationDAO;
         private $studentDAO;
-        private $apiStudentDAO;
 
         public function __construct()
         {
             $this->jobOfferDAO = new JobOfferDAO();
             $this->companyDAO = new CompanyDAO();
-            $this->apiJobPositionDAO = new ApiJobPositionDAO();
-            $this->apiCareerDAO = new ApiCareerDAO();
+            $this->jobPositionDAO = new JobPositionDAO();
+            $this->careerDAO = new CareerDAO();
             $this->postulationDAO = new PostulationDAO();
             $this->studentDAO = new StudentDAO();
-            $this->apiStudentDAO = new ApiStudentDAO();
         }
 
         public function ShowAddPostulationView() {
-            $jobPositionList = $this->apiJobPositionDAO->GetAll();
+            $jobPositionList = $this->jobPositionDAO->GetAll();
             $companyList = $this->companyDAO->GetAll();
             require_once(VIEWS_PATH."postulation-add.php");
         }
@@ -46,19 +43,16 @@
 
             $postulation = $this->postulationDAO->GetOne($postulationId);
             $jobOffer = $this->jobOfferDAO->GetOne($postulation->getJobOfferId());
-            $jobPosition = $this->apiJobPositionDAO->GetOne($jobOffer->getJobPositionId());
-            $career = $this->apiCareerDAO->GetOne($jobPosition->getCareerId());
+            $jobPosition = $this->jobPositionDAO->GetOne($jobOffer->getJobPositionId());
+            $career = $this->careerDAO->GetOne($jobPosition->getCareerId());
             $company = $this->companyDAO->GetOne($jobOffer->getCompanyId());
             $student = $this->studentDAO->GetOne($postulation->getStudentId());
-            if (!$student) {
-                $student = $this->apiStudentDAO->GetOne($postulation->getStudentId());
-            }
             require_once(VIEWS_PATH."postulation-info.php");
         }
         
         public function ShowPostulationListView($careerId = "", $jobPositionId = "", $description = "") {
-            $careerDAO = $this->apiCareerDAO;
-            $jobPositionDAO = $this->apiJobPositionDAO;
+            $careerDAO = $this->careerDAO;
+            $jobPositionDAO = $this->jobPositionDAO;
             $jobOfferDAO = $this->jobOfferDAO;
             $companyDAO = $this->companyDAO;
             
@@ -85,7 +79,7 @@
         }
 
         public function ShowPostulationListStudentView($studentId = "") {
-            $jobPositionDAO = $this->apiJobPositionDAO;
+            $jobPositionDAO = $this->jobPositionDAO;
             $jobOfferDAO = $this->jobOfferDAO;
             $companyDAO = $this->companyDAO;
             
