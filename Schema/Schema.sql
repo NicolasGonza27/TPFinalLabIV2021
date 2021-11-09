@@ -52,5 +52,22 @@ CREATE TABLE `postulation` (
   `active` TINYINT NOT NULL,
   PRIMARY KEY (`postulationId`)
   );
+
+CREATE TABLE `jobposition` (
+  `jobPositionId` INT NOT NULL,
+  `careerId` INT NOT NULL,
+  `description` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`jobPositionId`)
+  );
+
+CREATE TABLE `career` (
+  `careerId` INT NOT NULL,
+  `description` VARCHAR(45) NOT NULL,
+  `active` TINYINT NOT NULL,
+  PRIMARY KEY (`careerId`)
+  );
   
 SELECT * FROM `company`;
+SELECT * FROM `student`;
+SELECT * FROM `jobposition`;
+SELECT * FROM `career`;
