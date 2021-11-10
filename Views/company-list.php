@@ -16,7 +16,7 @@
             </div>
             <h2 class="mb-4">Companyes List</h2>
 
-            <table class="table">
+            <table class="table table-sm">
                 <thead class="">
                     <tr>
                         <th class="text-center">Fantasy Name</th>
