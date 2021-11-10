@@ -9,7 +9,7 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
                                 <?php if (isset($error) && $error == 1) { ?>
-                                    <span class="text-danger">The tags of Dni and/or email ar not available</span>
+                                    <span class="text-danger">The tags of Dni and/or email are not available</span>
                                 <?php } ?>
                                 <div class="form-group">
                                     <label for="">First Name</label>

@@ -9,12 +9,13 @@
         private $expirationDate;
         private $requirements;
         private $workload; //carga horaria
+        private $maxPostulations;
         private $careerId;
         private $jobPositionId;
         private $companyId;
         private $active;
 
-        public function __construct($jobOfferId = null, $description = null, $publicationDate = null, $expirationDate = null, $requirements = null, $workload = null, $careerId = null, $jobPositionId = null, $companyId = null, $active = null)
+        public function __construct($jobOfferId = null, $description = null, $publicationDate = null, $expirationDate = null, $requirements = null, $workload = null, $maxPostulations = null, $careerId = null, $jobPositionId = null, $companyId = null, $active = null)
         {
             $this->jobOfferId = $jobOfferId;
             $this->description = $description;
@@ -22,6 +23,7 @@
             $this->expirationDate = $expirationDate;
             $this->requirements = $requirements;
             $this->workload = $workload;
+            $this->maxPostulations = $maxPostulations;
             $this->careerId = $careerId;
             $this->jobPositionId = $jobPositionId;
             $this->companyId = $companyId;
@@ -224,6 +226,26 @@
         public function setCareerId($careerId)
         {
                 $this->careerId = $careerId;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of maxPostulations
+         */ 
+        public function getMaxPostulations()
+        {
+                return $this->maxPostulations;
+        }
+
+        /**
+         * Set the value of maxPostulations
+         *
+         * @return  self
+         */ 
+        public function setMaxPostulations($maxPostulations)
+        {
+                $this->maxPostulations = $maxPostulations;
 
                 return $this;
         }

@@ -1,5 +1,12 @@
 <?php
-    require_once('admin-nav.php');
+    $employerCompanyId = "";
+    if (isset($_SESSION["employer"])) {
+        require_once('employer-nav.php');
+        $employerCompanyId = $_SESSION["employer"]->getCompanyId();
+    }
+    else {
+        require_once('admin-nav.php');
+    }
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
@@ -32,6 +39,10 @@
                                     <input type="number" name="workload" value="" class="form-control" required="required">
                                 </div>
                                 <div class="form-group">
+                                    <label for="">Max Postulations</label>
+                                    <input type="number" name="maxPostulations" value="" class="form-control" required="required">
+                                </div>
+                                <div class="form-group">
                                     <label for="">Job Position</label>
                                     <div class="form-control" required="required">
                                         <select name="jobPositionId" value="">
@@ -41,16 +52,20 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="">Company</label>
-                                    <div class="form-control" required="required">
-                                        <select name="companyId" value="">
-                                            <?php foreach ($companyList as $company) { ?>
-                                                <option value="<?=$company->getCompanyId()?>"><?=$company->getFantasyName()?></option>
-                                            <?php } ?>
-                                        </select>
+                                <?php if (!$employerCompanyId) { ?>
+                                    <div class="form-group">
+                                        <label for="">Company</label>
+                                        <div class="form-control" required="required">
+                                            <select name="companyId" value="">
+                                                <?php foreach ($companyList as $company) { ?>
+                                                    <option value="<?=$company->getCompanyId()?>"><?=$company->getFantasyName()?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php } else { ?>
+                                    <input class="hidden" name="companyId" value="<?= $employerCompanyId ?>">
+                                <?php } ?>
                             </div>
                         </div>
 

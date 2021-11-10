@@ -14,14 +14,15 @@
         {
             try
             {
-                $query = "INSERT INTO ".$this->tableName." (postulationId,jobOfferId,studentId,studentFullName,postulationDate,active) 
-                VALUES (:postulationId,:jobOfferId,:studentId,:studentFullName,:postulationDate,:active);";
+                $query = "INSERT INTO ".$this->tableName." (postulationId,jobOfferId,studentId,studentFullName,postulationDate,mailSend,active) 
+                VALUES (:postulationId,:jobOfferId,:studentId,:studentFullName,:postulationDate,:mailSend,:active);";
                 
                 $parameters["postulationId"] = $postulation->getPostulationId();
                 $parameters["jobOfferId"] = $postulation->getJobOfferId();
                 $parameters["studentId"] = $postulation->getStudentId();
                 $parameters["studentFullName"] = $postulation->getStudentFullName();
                 $parameters["postulationDate"] = $postulation->getPostulationDate();
+                $parameters["mailSend"] = $postulation->getMailSend();
                 $parameters["active"] = $postulation->getActive();
 
                 $this->connection = Connection::GetInstance();
@@ -179,7 +180,7 @@
             try
             {
                 $postulationId = $postulation->getPostulationId();
-                $query = "UPDATE ".$this->tableName." SET jobOfferId=:jobOfferId,studentId=:studentId,studentFullName=:studentFullName,postulationDate=:postulationDate,active=:active
+                $query = "UPDATE ".$this->tableName." SET jobOfferId=:jobOfferId,studentId=:studentId,studentFullName=:studentFullName,postulationDate=:postulationDate,mailSend=:mailSend,active=:active
                 
                 WHERE (postulationId = :postulationId);";
 
@@ -190,6 +191,7 @@
                 $parameters["studentId"] = $postulation->getStudentId();
                 $parameters["studentFullName"] = $postulation->getStudentFullName();
                 $parameters["postulationDate"] = $postulation->getPostulationDate();
+                $parameters["mailSend"] = $postulation->getMailSend();
                 $parameters["active"] = $postulation->getActive();
 
                 $cantRows = $this->connection->ExecuteNonQuery($query,$parameters);
@@ -257,7 +259,7 @@
         {   
             $resp = array_map(function($p)
             {
-                return new Postulation($p['postulationId'],$p['jobOfferId'],$p['studentId'],$p['studentFullName'],$p['postulationDate'],$p['active']);
+                return new Postulation($p['postulationId'],$p['jobOfferId'],$p['studentId'],$p['studentFullName'],$p['postulationDate'],$p['mailSend'],$p['active']);
             }, $postulation);
 
             return $resp;

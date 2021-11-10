@@ -14,8 +14,8 @@
         {
             try
             {
-                $query = "INSERT INTO ".$this->tableName." (jobOfferId,description,publicationDate,expirationDate,requirements,workload,careerId,jobPositionId,companyId,active) 
-                VALUES (:jobOfferId,:description,:publicationDate,:expirationDate,:requirements,:workload,:careerId,:jobPositionId,:companyId,:active);";
+                $query = "INSERT INTO ".$this->tableName." (jobOfferId,description,publicationDate,expirationDate,requirements,workload,maxPostulations,careerId,jobPositionId,companyId,active) 
+                VALUES (:jobOfferId,:description,:publicationDate,:expirationDate,:requirements,:workload,:maxPostulations,:careerId,:jobPositionId,:companyId,:active);";
                 
                 $parameters["jobOfferId"] = $jobOffer->getJobOfferId();
                 $parameters["description"] = $jobOffer->getDescription();
@@ -23,6 +23,7 @@
                 $parameters["expirationDate"] = $jobOffer->getExpirationDate();
                 $parameters["requirements"] = $jobOffer->getRequirements();
                 $parameters["workload"] = $jobOffer->getWorkload();
+                $parameters["maxPostulations"] = $jobOffer->getMaxPostulations();
                 $parameters["careerId"] = $jobOffer->getCareerId();
                 $parameters["jobPositionId"] = $jobOffer->getJobPositionId();
                 $parameters["companyId"] = $jobOffer->getCompanyId();
@@ -150,6 +151,34 @@
             }
         }
 
+        public function GetAllByCompanyId($companyId)
+        {
+            try 
+            {
+                $query = "SELECT * FROM ".$this->tableName." WHERE (companyId = :companyId) AND (true=active);";
+
+                $this->connection = Connection::GetInstance();
+                
+                $parameters['companyId'] = $companyId;
+
+                $resultSet = $this->connection->Execute($query,$parameters);
+
+                if($resultSet)
+                {
+                    $newResultSet = $this->mapear($resultSet);
+                
+                    return  $newResultSet;
+                }
+                
+                return false;
+
+            }
+            catch(PDOException $e)
+            {
+                throw new PDOException($e->getMessage());
+            }
+        }
+
         public function GetOneByCompanyId($companyId)
         {
             try 
@@ -183,7 +212,7 @@
             try
             {
                 $jobOfferId = $jobOffer->getJobOfferId();
-                $query = "UPDATE ".$this->tableName." SET description=:description,publicationDate=:publicationDate,expirationDate=:expirationDate,requirements=:requirements,workload=:workload,careerId=:careerId,jobPositionId=:jobPositionId,companyId=:companyId,active=:active
+                $query = "UPDATE ".$this->tableName." SET description=:description,publicationDate=:publicationDate,expirationDate=:expirationDate,requirements=:requirements,workload=:workload,maxPostulations=:maxPostulations,careerId=:careerId,jobPositionId=:jobPositionId,companyId=:companyId,active=:active
                 
                 WHERE (jobOfferId = :jobOfferId);";
 
@@ -195,6 +224,7 @@
                 $parameters["expirationDate"] = $jobOffer->getExpirationDate();
                 $parameters["requirements"] = $jobOffer->getRequirements();
                 $parameters["workload"] = $jobOffer->getWorkload();
+                $parameters["maxPostulations"] = $jobOffer->getMaxPostulations();
                 $parameters["careerId"] = $jobOffer->getCareerId();
                 $parameters["jobPositionId"] = $jobOffer->getJobPositionId();
                 $parameters["companyId"] = $jobOffer->getCompanyId();
@@ -265,7 +295,7 @@
         {   
             $resp = array_map(function($p)
             {
-                return new JobOffer($p['jobOfferId'],$p['description'],$p['publicationDate'],$p['expirationDate'],$p['requirements'],$p['workload'],$p['careerId'],$p['jobPositionId'],$p['companyId'],$p['active']);
+                return new JobOffer($p['jobOfferId'],$p['description'],$p['publicationDate'],$p['expirationDate'],$p['requirements'],$p['workload'],$p['maxPostulations'],$p['careerId'],$p['jobPositionId'],$p['companyId'],$p['active']);
             }, $jobOffers);
 
             return $resp;

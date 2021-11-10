@@ -8,15 +8,17 @@
         private $studentId;
         private $studentFullName;
         private $postulationDate;
+        private $mailSend;
         private $active;
 
-        public function __construct($postulationId = null, $jobOfferId = null, $studentId = null, $studentFullName = null, $postulationDate = null, $active = null)
+        public function __construct($postulationId = null, $jobOfferId = null, $studentId = null, $studentFullName = null, $postulationDate = null, $mailSend = null, $active = null)
         {
             $this->postulationId = $postulationId;
             $this->jobOfferId = $jobOfferId;
             $this->studentId = $studentId;
             $this->studentFullName = $studentFullName;
             $this->postulationDate = $postulationDate;
+            $this->mailSend = $mailSend;
             $this->active = $active;
         }
 
@@ -136,6 +138,26 @@
         public function setStudentFullName($studentFullName)
         {
                 $this->studentFullName = $studentFullName;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of mailSend
+         */ 
+        public function getMailSend()
+        {
+                return $this->mailSend;
+        }
+
+        /**
+         * Set the value of mailSend
+         *
+         * @return  self
+         */ 
+        public function setMailSend($mailSend)
+        {
+                $this->mailSend = $mailSend;
 
                 return $this;
         }

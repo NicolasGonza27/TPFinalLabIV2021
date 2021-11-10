@@ -38,6 +38,10 @@
                                 <span class="col-lg-6"><?= $jobOffer->getWorkload() ?></span>
                             </div>
                             <div class="row">
+                                <span class="col-lg-6">Max Postulations:</span>
+                                <span class="col-lg-6"><?= $jobOffer->getMaxPostulations() ?></span>
+                            </div>
+                            <div class="row">
                                 <span class="col-lg-6">Job Position:</span>
                                 <span class="col-lg-6"><?= $jobPosition->getDescription() ?></span>
                             </div>
@@ -50,7 +54,7 @@
                                 <span class="col-lg-6"><?= $company->getFantasyName() ?></span>
                             </div>
                             <!-- ACA VA LO BUENOOOOOO   -->
-                            <?php if ($student != "" && !$already_post) { ?>
+                            <?php if ($student != "" && !$already_post && !$no_post_left) { ?>
                                 <div class="d-flex justify-content-end">
                                     <form action="<?php echo FRONT_ROOT . "Postulation/Add" ?>" method="post" class="row">
                                         <input class="hidden" name="jobOfferId" value="<?= $jobOffer->getJobOfferId() ?>">
@@ -63,6 +67,10 @@
                             <?php } elseif ($already_post) {?>
                                 <div class="d-flex justify-content-end">
                                     <span class=""><i class="fas fa-check mr-3"></i>Inscripted</span>
+                                </div>
+                            <?php } elseif ($no_post_left) {?>
+                                <div class="d-flex justify-content-end">
+                                    <span class=""><i class="fas fa-times mr-3"></i>Inscriptions are full</span>
                                 </div>
                             <?php } ?>
                         </div>
