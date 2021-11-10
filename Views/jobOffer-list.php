@@ -2,8 +2,13 @@
     $careerList = "";
     $jobPositionList = "";
     $companyList = "";
-    if (isset($_SESSION["student"])) {
-        require_once('student-nav.php');
+    $employerCompanyId = "";
+    if (isset($_SESSION["employer"])) {
+        require_once('employer-nav.php');
+        $careerList = $careerDAO->GetAll();
+        $jobPositionList = $jobPositionDAO->GetAll();
+        $companyList = $companyDAO->GetAll();
+        $employerCompanyId = $_SESSION["employer"]->getCompanyId();
     }
     else {
         require_once('admin-nav.php');
@@ -16,32 +21,40 @@
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
-            <div class="d-flex justify-content-end">
-                <form action="<?= FRONT_ROOT ?>JobOffer/ShowJobOfferListView" method="post">
-                    <div class="col-lg-4">
-                        <div class="d-flex align-item-center">
-                            <select id="career_busqueda" name="careerId" class="" value="" style="width:200px">
-                                <option value="" <?=($careerId == "" ? " selected" : "")?>>Select Career...</option>
-                                <?php foreach($careerList as $career) { ?>
-                                    <option value="<?=$career->getCareerId()?>" <?=($careerId == $career->getCareerId() ? " selected" : "")?>>
-                                        <?=$career->getDescription()?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                            <select id="job_position_busqueda" name="jobPositionId" class="ml-3" value="" style="width:200px">
-                                <option value="" <?=($jobPositionId == "" ? " selected" : "")?>>Select Job Position...</option>
-                                <?php foreach($jobPositionList as $jobPosition) { ?>
-                                    <option value="<?=$jobPosition->getJobPositionId()?>" <?=($jobPositionId == $jobPosition->getJobPositionId() ? " selected" : "")?>>
-                                        <?=$jobPosition->getDescription()?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                            <input id="descripcion_busqueda" type="text" placeholder="Serch Description" class="ml-3" name="description" value="<?=($description != "" ? $description : "")?>" style="width:200px">
-                            <button type="submit" title="Search" class="btn flex-grow-0 ml-3"><i class="fas fa-search"></i></button>
+            <?php if (!$employerCompanyId) { ?>
+                <div class="d-flex justify-content-end">
+                    <form action="<?= FRONT_ROOT ?>JobOffer/SendMailsToStudents" method="post">
+                        <div class="col-lg-4">
+                            <button type="submit" title="Send an email to students" class="btn btn-success ml-3"><i class="fas fa-mail"></i>Send mails</button>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                    <form action="<?= FRONT_ROOT ?>JobOffer/ShowJobOfferListView" method="post">
+                        <input name="companyId" class="hidden" value=""/>
+                        <div class="col-lg-4">
+                            <div class="d-flex align-item-center">
+                                <select id="career_busqueda" name="careerId" class="" value="" style="width:200px">
+                                    <option value="" <?=($careerId == "" ? " selected" : "")?>>Select Career...</option>
+                                    <?php foreach($careerList as $career) { ?>
+                                        <option value="<?=$career->getCareerId()?>" <?=($careerId == $career->getCareerId() ? " selected" : "")?>>
+                                            <?=$career->getDescription()?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                                <select id="job_position_busqueda" name="jobPositionId" class="ml-3" value="" style="width:200px">
+                                    <option value="" <?=($jobPositionId == "" ? " selected" : "")?>>Select Job Position...</option>
+                                    <?php foreach($jobPositionList as $jobPosition) { ?>
+                                        <option value="<?=$jobPosition->getJobPositionId()?>" <?=($jobPositionId == $jobPosition->getJobPositionId() ? " selected" : "")?>>
+                                            <?=$jobPosition->getDescription()?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                                <input id="descripcion_busqueda" type="text" placeholder="Serch Description" class="ml-3" name="description" value="<?=($description != "" ? $description : "")?>" style="width:200px">
+                                <button type="submit" title="Search" class="btn flex-grow-0 ml-3"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            <?php } ?>
             <h2 class="mb-4">Job Offers List</h2>
 
             <table class="table table-sm">
@@ -75,6 +88,7 @@
                             </td>
                             <td class="text-center">
                                 <span class="workload"><?= $jobOffer->getWorkload() ?></span>hs
+                                <input class="maxPostulations hidden" value="<?= $jobOffer->getMaxPostulations() ?>"/>
                             </td>
                             <td class="text-center">
                                 <span class="jobPositionId" data-id="<?=$jobPosition->getJobPositionId()?>">
@@ -129,7 +143,7 @@
 
                     <div class="form-group">
                         <label for="">Description</label>
-                        <input type="text" id="description_edit" name="description" class="form-control" maxlength="15" value="" required />
+                        <input type="text" id="description_edit" name="description" class="form-control" maxlength="35" value="" required />
                     </div>
 
                     <div class="form-group">
@@ -151,6 +165,11 @@
                         <label for="">Workload</label>
                         <input type="number" id="workload_edit" name="workload" class="form-control" min="1" max="24" value="" required />
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="">Max Postulations</label>
+                        <input type="number" id="max_postulations_edit" name="maxPostulations" class="form-control" min="1" value="" required />
+                    </div>
 
                     <div class="form-group">
                         <label for="">Job Position</label>
@@ -161,7 +180,8 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <?php if (!$employerCompanyId) { ?>
+                        <div class="form-group">
                         <label for="">Company</label>
                         <select id="company_id_edit" name="companyId" class="form-control" value="" required>
                             <?php foreach($companyList as $company) { ?>
@@ -169,6 +189,10 @@
                             <?php } ?>
                         </select>
                     </div>
+
+                    <?php } else { ?>
+                        <input class="hidden" name="companyId" value="<?= $employerCompanyId ?>">
+                    <?php } ?>
 
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
                 </form>
@@ -236,6 +260,7 @@
                 $("#expiration_date_edit").val($row.find(".expirationDate").val());
                 $("#requirements_edit").val($row.find(".requirements").val());
                 $("#workload_edit").val($row.find(".workload").text());
+                $("#max_postulations_edit").val($row.find(".maxPostulations").val());
                 $("#job_position_id_edit option[value='"+ $row.find('.jobPositionId').data('id') +"']").attr("selected",true);
                 $("#company_id_edit option[value='"+ $row.find(".companyId").data("id") +"']").attr("selected",true);
             }

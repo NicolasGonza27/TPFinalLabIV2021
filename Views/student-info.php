@@ -1,5 +1,7 @@
 <?php
     require_once('student-nav.php');
+
+    $student = $_SESSION["student"];
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">

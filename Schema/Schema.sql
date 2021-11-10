@@ -73,9 +73,23 @@ CREATE TABLE access (
   password VARCHAR(45) NOT NULL,
   PRIMARY KEY (accessId)
 );
+
+CREATE TABLE employer (
+  employerId INT NOT NULL,
+  companyId INT NOT NULL,
+  firstName VARCHAR(45) NOT NULL,
+  lastName VARCHAR(45) NOT NULL,
+  dni VARCHAR(45) NOT NULL,
+  email VARCHAR(45) NOT NULL,
+  active TINYINT NOT NULL,
+  PRIMARY KEY (employerId)
+);
   
 SELECT * FROM company;
 SELECT * FROM student;
 SELECT * FROM jobposition;
+SELECT * FROM joboffer;
 SELECT * FROM career;
 SELECT * FROM access;
+SELECT * FROM employer;
+SELECT * FROM postulation;

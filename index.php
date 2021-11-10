@@ -7,25 +7,29 @@
 	require "Config/Autoload.php";
 	require "Config/Config.php";
 	require "Config/Constants.php";
+	require "mailerTemplates.php";
 
 	use Config\Autoload as Autoload;
 	use Config\Router 	as Router;
 	use Config\Request 	as Request;
+	use MeilerTemplate 	as MeilerTemplate;
+
 	// NO COMENTAR LO DE ARRIBA
 
-	// use DAOmysql\QueryType as QueryType;
-	// use DAOmysql\Connection as Connection;
-	// use Models\Student;
-	// use Models\JobPosition;
-	// use Models\Career;
-	// use DAO\StudentDAO as StudentDAO;
-	// use DAO\JobPositionDAO as JobPositionDAO;
-	// use DAO\CareerDAO as CareerDAO;
-	// use API\ApiStudentDAO as ApiStudentDAO;
-	// use API\ApiJobPositionDAO as ApiJobPositionDAO;
-	// use API\ApiCareerDAO as ApiCareerDAO;
-	
-	Autoload::start();
+	use DAOmysql\QueryType as QueryType;
+	use DAOmysql\Connection as Connection;
+	use Models\Student;
+	use Models\JobPosition;
+	use Models\Career;
+	use DAO\StudentDAO as StudentDAO;
+	use DAO\JobPositionDAO as JobPositionDAO;
+	use DAO\CareerDAO as CareerDAO;
+	use API\ApiStudentDAO as ApiStudentDAO;
+	use API\ApiJobPositionDAO as ApiJobPositionDAO;
+	use API\ApiCareerDAO as ApiCareerDAO;
+use DAO\JobOfferDAO;
+
+Autoload::start();
 
 	session_start();
 
@@ -34,6 +38,21 @@
 	Router::Route(new Request());
 
 	require_once(VIEWS_PATH."footer.php");
+
+	// $jobOfferList = (new JobOfferDAO)->GetAll();
+	// $thisDay = time();
+	// echo $thisDay." ".date("Y-m-d");
+	// foreach ($jobOfferList as $jobOffer) {
+		
+	// 	$jobOfferExp = strtotime($jobOffer->getExpirationDate());
+	// 	echo nl2br("\r ".$jobOfferExp."__".$jobOffer->getExpirationDate());
+	// 	if ($jobOfferExp < $thisDay) {
+	// 		echo nl2br("\r pasa");
+	// 	}
+	// }
+
+	// $mail = new MeilerTemplates();
+	// $mail->SendMailEndJobOfferToStudents(707700);
 
 	// $arrayStudentsApi = (new ApiJobPositionDAO)->GetAll();
 	// $studenDAO = new JobPositionDAO;

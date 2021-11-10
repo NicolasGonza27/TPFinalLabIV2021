@@ -111,7 +111,7 @@
             while($this->postulationDAO->GetOne($nuevo_id) != false) {
                 $nuevo_id = rand(100000,999999);
             }
-            $postulation = new Postulation($nuevo_id,$jobOfferId,$studentId,$studentFullName,$postulationDate,true);
+            $postulation = new Postulation($nuevo_id,$jobOfferId,$studentId,$studentFullName,$postulationDate,false,true);
 
             $this->postulationDAO->Add($postulation);
 

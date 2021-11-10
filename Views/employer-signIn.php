@@ -1,19 +1,41 @@
-<?php
-    require_once('admin-nav.php');
-?>
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
-            <h2 class="mb-4">Add new Company</h2>
-               
-            <form action="<?php echo FRONT_ROOT ?>Company/Add" method="post" class="bg-light-alpha p-5">
+            <h2 class="mb-4">Sign In as Employer</h2>
+            
+            <form action="<?php echo FRONT_ROOT ?>Employer/Add" method="post" class="bg-light-alpha p-5">
                 <div class="row">
                     <div class="col-lg-12">
+                        <?php if (isset($error) && $error == 1) { ?>
+                            <span class="text-danger">The tags of Dni and/or email are not available</span>
+                        <?php } ?>
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
-                                <?php if (isset($error) && $error == 1) { ?>
-                                    <span class="text-danger">The tags of Cuil and/or Fantasy Name are not available</span>
-                                <?php } ?>
+                                <h4 class="mb-4">Your Employer Information</h4>
+                                
+                                <div class="form-group">
+                                    <label for="">First Name</label>
+                                    <input type="text" name="firstName" value="" class="form-control" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Last Name</label>
+                                    <input type="text" name="lastName" value="" class="form-control" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Dni</label>
+                                    <input type="text" name="dni" value="" class="form-control" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Email</label>
+                                    <input type="text" name="email" value="" class="form-control" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Password</label>
+                                    <input type="password" name="password" value="" class="form-control" required="required">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <h4 class="mb-4">Your Employer Information</h4>
                                 <div class="form-group">
                                     <label for="">Fantasy Name</label>
                                     <input type="text" name="fantasyName" value="" class="form-control" required="required">
@@ -46,7 +68,7 @@
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-dark d-block">Add</button>
+                            <button type="submit" class="btn btn-dark d-block">Sign In</button>
                         </div>
                     </div>
                 </div>
@@ -54,3 +76,11 @@
         </div>
     </section>
 </main>
+
+<?php require_once(VIEWS_PATH . "footer.php"); ?>
+
+<script>
+    $(document).ready(function() {
+
+    });
+</script>
