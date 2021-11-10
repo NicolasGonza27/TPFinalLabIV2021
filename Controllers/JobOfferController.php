@@ -92,18 +92,23 @@
                 require_once(VIEWS_PATH."jobOffer-student-list.php");
                 return;
             }
-            if ($careerId == "" && $jobPositionId == "" && $description) {
+            elseif ($careerId == "" && $jobPositionId == "" && $description) {
                 $jobOfferList = $this->jobOfferDAO->SearchJobOffer($description);
                 require_once(VIEWS_PATH."jobOffer-student-list.php");
                 return;
             }
-            if ($careerId == "" && $jobPositionId && $description == "") {
+            elseif ($careerId == "" && $jobPositionId && $description == "") {
                 $jobOfferList = $this->jobOfferDAO->GetAllByJobPositionId($jobPositionId);
                 require_once(VIEWS_PATH."jobOffer-student-list.php");
                 return;
             }
-            if ($careerId && $jobPositionId == "" && $description == "") {
+            elseif ($careerId && $jobPositionId == "" && $description == "") {
                 $jobOfferList = $this->jobOfferDAO->GetAllByCareerId($careerId);
+                require_once(VIEWS_PATH."jobOffer-student-list.php");
+                return;
+            }
+            else {
+                $jobOfferList = $this->jobOfferDAO->GetAll(true);
                 require_once(VIEWS_PATH."jobOffer-student-list.php");
                 return;
             }
@@ -121,7 +126,7 @@
 
             $this->jobOfferDAO->Add($jobOffer);
 
-            $this->ShowAddJobOfferView();
+            $this->ShowJobOfferListView();
         }
 
         public function ModifyJobOffer($jobOfferId, $description, $publicationDate, $expirationDate,  $requirements, $workload, $jobPositionId, $companyId) {

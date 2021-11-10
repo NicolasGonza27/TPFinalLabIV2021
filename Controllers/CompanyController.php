@@ -55,10 +55,23 @@
                 $nuevo_id = rand(100000,999999);
             }
             $company = new Company($nuevo_id,$fantasyName,$cuil,$phoneNumber,$country,$province,$city,$direction,true);
+            $error = 0;
+            if ($this->companyDAO->GetOneByFantasyName($fantasyName)) {
+                $error = 1;
+            }
+            if ($this->companyDAO->GetOneByCuil($cuil)) {
+                $error = 1;
+            }
 
-            $this->companyDAO->Add($company);
+            if ($error == 0) {
+                $this->companyDAO->Add($company);
+                $companyList = $this->companyDAO->SearchCompany($fantasyName);
+                require_once(VIEWS_PATH."company-list.php");
+            }
+            else {
+                require_once(VIEWS_PATH."company-add.php");
+            }
 
-            $this->ShowAddCompanyView();
         }
 
         public function ModifyCompany($companyId, $fantasyName, $cuil, $phoneNumber,  $country, $province, $city, $direction) {

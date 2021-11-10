@@ -25,8 +25,6 @@
 	// use API\ApiJobPositionDAO as ApiJobPositionDAO;
 	// use API\ApiCareerDAO as ApiCareerDAO;
 	
-	
-
 	Autoload::start();
 
 	session_start();
@@ -37,8 +35,12 @@
 
 	require_once(VIEWS_PATH."footer.php");
 
+	// $arrayStudentsApi = (new ApiJobPositionDAO)->GetAll();
+	// $studenDAO = new JobPositionDAO;
 	// $arrayStudentsApi = (new ApiCareerDAO)->GetAll();
 	// $studenDAO = new CareerDAO;
+	// $arrayStudentsApi = (new ApiStudentDAO)->GetAll();
+	// $studenDAO = new StudentDAO;
 	// foreach ($arrayStudentsApi as $student) {
 	// 	$studenDAO->Add($student);
 	// }
