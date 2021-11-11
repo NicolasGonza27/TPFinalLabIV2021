@@ -12,9 +12,9 @@
         <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>JobOffer/ShowJobOfferListView/<?= $_SESSION['employer']->getCompanyId() ?>">Job Offer List</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>Company/ShowAddCompanyView">Add Comany</a>
-        </li>
+        </li> -->
         <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>Home/Logout">Log Out</a>
         </li>

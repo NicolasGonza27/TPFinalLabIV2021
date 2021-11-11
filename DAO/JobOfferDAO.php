@@ -14,8 +14,8 @@
         {
             try
             {
-                $query = "INSERT INTO ".$this->tableName." (jobOfferId,description,publicationDate,expirationDate,requirements,workload,maxPostulations,careerId,jobPositionId,companyId,active) 
-                VALUES (:jobOfferId,:description,:publicationDate,:expirationDate,:requirements,:workload,:maxPostulations,:careerId,:jobPositionId,:companyId,:active);";
+                $query = "INSERT INTO ".$this->tableName." (jobOfferId,description,publicationDate,expirationDate,requirements,workload,maxPostulations,careerId,jobPositionId,companyId,flyer,active) 
+                VALUES (:jobOfferId,:description,:publicationDate,:expirationDate,:requirements,:workload,:maxPostulations,:careerId,:jobPositionId,:companyId,:flyer,:active);";
                 
                 $parameters["jobOfferId"] = $jobOffer->getJobOfferId();
                 $parameters["description"] = $jobOffer->getDescription();
@@ -27,6 +27,7 @@
                 $parameters["careerId"] = $jobOffer->getCareerId();
                 $parameters["jobPositionId"] = $jobOffer->getJobPositionId();
                 $parameters["companyId"] = $jobOffer->getCompanyId();
+                $parameters["flyer"] = $jobOffer->getFlyer();
                 $parameters["active"] = $jobOffer->getActive();
 
                 $this->connection = Connection::GetInstance();
@@ -212,7 +213,7 @@
             try
             {
                 $jobOfferId = $jobOffer->getJobOfferId();
-                $query = "UPDATE ".$this->tableName." SET description=:description,publicationDate=:publicationDate,expirationDate=:expirationDate,requirements=:requirements,workload=:workload,maxPostulations=:maxPostulations,careerId=:careerId,jobPositionId=:jobPositionId,companyId=:companyId,active=:active
+                $query = "UPDATE ".$this->tableName." SET description=:description,publicationDate=:publicationDate,expirationDate=:expirationDate,requirements=:requirements,workload=:workload,maxPostulations=:maxPostulations,careerId=:careerId,jobPositionId=:jobPositionId,companyId=:companyId,flyer=:flyer,active=:active
                 
                 WHERE (jobOfferId = :jobOfferId);";
 
@@ -228,6 +229,7 @@
                 $parameters["careerId"] = $jobOffer->getCareerId();
                 $parameters["jobPositionId"] = $jobOffer->getJobPositionId();
                 $parameters["companyId"] = $jobOffer->getCompanyId();
+                $parameters["flyer"] = $jobOffer->getFlyer();
                 $parameters["active"] = $jobOffer->getActive();
 
                 $cantRows = $this->connection->ExecuteNonQuery($query,$parameters);
@@ -295,7 +297,7 @@
         {   
             $resp = array_map(function($p)
             {
-                return new JobOffer($p['jobOfferId'],$p['description'],$p['publicationDate'],$p['expirationDate'],$p['requirements'],$p['workload'],$p['maxPostulations'],$p['careerId'],$p['jobPositionId'],$p['companyId'],$p['active']);
+                return new JobOffer($p['jobOfferId'],$p['description'],$p['publicationDate'],$p['expirationDate'],$p['requirements'],$p['workload'],$p['maxPostulations'],$p['careerId'],$p['jobPositionId'],$p['companyId'],$p['flyer'],$p['active']);
             }, $jobOffers);
 
             return $resp;

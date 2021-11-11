@@ -8,26 +8,28 @@
 	require "Config/Config.php";
 	require "Config/Constants.php";
 	require "mailerTemplates.php";
+	require "documentsManager.php";
 
 	use Config\Autoload as Autoload;
 	use Config\Router 	as Router;
 	use Config\Request 	as Request;
 	use MeilerTemplate 	as MeilerTemplate;
+	use DocumentManager as DocumentManager;
 
 	// NO COMENTAR LO DE ARRIBA
 
-	use DAOmysql\QueryType as QueryType;
-	use DAOmysql\Connection as Connection;
-	use Models\Student;
-	use Models\JobPosition;
-	use Models\Career;
-	use DAO\StudentDAO as StudentDAO;
-	use DAO\JobPositionDAO as JobPositionDAO;
-	use DAO\CareerDAO as CareerDAO;
-	use API\ApiStudentDAO as ApiStudentDAO;
-	use API\ApiJobPositionDAO as ApiJobPositionDAO;
-	use API\ApiCareerDAO as ApiCareerDAO;
-use DAO\JobOfferDAO;
+// 	use DAOmysql\QueryType as QueryType;
+// 	use DAOmysql\Connection as Connection;
+// 	use Models\Student;
+// 	use Models\JobPosition;
+// 	use Models\Career;
+// 	use DAO\StudentDAO as StudentDAO;
+// 	use DAO\JobPositionDAO as JobPositionDAO;
+// 	use DAO\CareerDAO as CareerDAO;
+// 	use API\ApiStudentDAO as ApiStudentDAO;
+// 	use API\ApiJobPositionDAO as ApiJobPositionDAO;
+// 	use API\ApiCareerDAO as ApiCareerDAO;
+// use DAO\JobOfferDAO;
 
 Autoload::start();
 
