@@ -13,7 +13,7 @@
         <div class="container">
             <h2 class="mb-4">Add new Job Offer</h2>
                
-            <form action="<?php echo FRONT_ROOT ?>JobOffer/Add" method="post" class="bg-light-alpha p-5">
+            <form action="<?php echo FRONT_ROOT ?>JobOffer/Add" method="post" class="bg-light-alpha p-5" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="row justify-content-center">
@@ -66,6 +66,10 @@
                                 <?php } else { ?>
                                     <input class="hidden" name="companyId" value="<?= $employerCompanyId ?>">
                                 <?php } ?>
+                                <div class="form-group">
+                                    <label for="">Flyer Image</label>
+                                    <input name="flyer" type="file">
+                                </div>
                             </div>
                         </div>
 

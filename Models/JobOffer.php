@@ -13,9 +13,10 @@
         private $careerId;
         private $jobPositionId;
         private $companyId;
+        private $flyer;
         private $active;
 
-        public function __construct($jobOfferId = null, $description = null, $publicationDate = null, $expirationDate = null, $requirements = null, $workload = null, $maxPostulations = null, $careerId = null, $jobPositionId = null, $companyId = null, $active = null)
+        public function __construct($jobOfferId = null, $description = null, $publicationDate = null, $expirationDate = null, $requirements = null, $workload = null, $maxPostulations = null, $careerId = null, $jobPositionId = null, $companyId = null, $flyer = null, $active = null)
         {
             $this->jobOfferId = $jobOfferId;
             $this->description = $description;
@@ -27,6 +28,7 @@
             $this->careerId = $careerId;
             $this->jobPositionId = $jobPositionId;
             $this->companyId = $companyId;
+            $this->flyer = $flyer;
             $this->active = $active;
         }
 
@@ -246,6 +248,26 @@
         public function setMaxPostulations($maxPostulations)
         {
                 $this->maxPostulations = $maxPostulations;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of flyer
+         */ 
+        public function getFlyer()
+        {
+                return $this->flyer;
+        }
+
+        /**
+         * Set the value of flyer
+         *
+         * @return  self
+         */ 
+        public function setFlyer($flyer)
+        {
+                $this->flyer = $flyer;
 
                 return $this;
         }

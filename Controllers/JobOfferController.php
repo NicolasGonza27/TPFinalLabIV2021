@@ -9,6 +9,7 @@
     use Models\JobOffer as JobOffer;
     use Models\Student as Student;
     use MeilerTemplates;
+    use DocumentManager;
 
 class JobOfferController
     {
@@ -17,6 +18,7 @@ class JobOfferController
         private $jobPositionDAO;
         private $careerDAO;
         private $mail;
+        private $documentManager;
 
         public function __construct()
         {
@@ -26,6 +28,7 @@ class JobOfferController
             $this->jobPositionDAO = new JobPositionDAO();
             $this->careerDAO = new CareerDAO();
             $this->mail = new MeilerTemplates();
+            $this->documentManager = new DocumentManager();
         }
 
         public function ShowAddJobOfferView() {
@@ -154,7 +157,7 @@ class JobOfferController
             $this->ShowJobOfferListView();
         }
 
-        public function Add($description, $publicationDate, $expirationDate,  $requirements, $workload, $maxPostulations, $jobPositionId, $companyId) {
+        public function Add($description, $publicationDate, $expirationDate,  $requirements, $workload, $maxPostulations, $jobPositionId, $companyId, $flyer) {
 
             $nuevo_id = rand(100000,999999);
             while($this->jobOfferDAO->GetOne($nuevo_id) != false) {
@@ -162,7 +165,13 @@ class JobOfferController
             }
             $jobPosition = $this->jobPositionDAO->GetOne($jobPositionId);
             $careerId = $jobPosition->getCareerId();
-            $jobOffer = new JobOffer($nuevo_id,$description,$publicationDate,$expirationDate,$requirements,$workload,$maxPostulations,$careerId,$jobPositionId,$companyId,true);
+
+            if ($flyer) {                
+                $flyer = $this->documentManager->setDocument($flyer,"flyer/");
+            }
+
+            $jobOffer = new JobOffer($nuevo_id,$description,$publicationDate,$expirationDate,$requirements,$workload,
+            $maxPostulations,$careerId,$jobPositionId,$companyId,$flyer,true);
 
             $this->jobOfferDAO->Add($jobOffer);
 
@@ -173,7 +182,7 @@ class JobOfferController
             $this->ShowJobOfferListView();
         }
 
-        public function ModifyJobOffer($jobOfferId, $description, $publicationDate, $expirationDate,  $requirements, $workload, $maxPostulations, $jobPositionId, $companyId) {
+        public function ModifyJobOffer($jobOfferId, $description, $publicationDate, $expirationDate,  $requirements, $workload, $maxPostulations, $jobPositionId, $companyId, $flyer) {
             $jobPosition = $this->jobPositionDAO->GetOne($jobPositionId);
             $careerId = $jobPosition->getCareerId();
             $jobOffer = new JobOffer();
@@ -187,6 +196,7 @@ class JobOfferController
             $jobOffer->setMaxPostulations($maxPostulations);
             $jobOffer->setCareerId($careerId);
             $jobOffer->setJobPositionId($jobPositionId);
+            $jobOffer->setFlyer($flyer);//esto tiene que apliarce para guardar la imagen
             $jobOffer->setCompanyId($companyId);
 
             $this->jobOfferDAO->Modify($jobOffer);
@@ -196,6 +206,11 @@ class JobOfferController
 
         public function DeleteJobOffer($jobOfferId) {
             $this->jobOfferDAO->Delete($jobOfferId);
+
+            if (isset($_SESSION['employer'])) {
+                $this->ShowJobOfferListView($_SESSION['employer']->getCompanyId());
+                return;
+            }
 
             $this->ShowJobOfferListView();
         }

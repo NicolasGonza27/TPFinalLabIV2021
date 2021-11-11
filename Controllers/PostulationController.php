@@ -10,6 +10,7 @@
     use Models\Postulation as Postulation;
     use DAO\StudentDAO as StudentDAO;
     use Models\Student as Student;
+    use MeilerTemplates;
 
     class PostulationController
     {
@@ -19,6 +20,7 @@
         private $careerDAO;
         private $postulationDAO;
         private $studentDAO;
+        private $mail;
 
         public function __construct()
         {
@@ -28,6 +30,7 @@
             $this->careerDAO = new CareerDAO();
             $this->postulationDAO = new PostulationDAO();
             $this->studentDAO = new StudentDAO();
+            $this->mail = new MeilerTemplates();
         }
 
         public function ShowAddPostulationView() {
@@ -133,6 +136,7 @@
         }
 
         public function DeletePostulation($postulationId) {
+            $this->mail->SendMailDeletedPostulationToStudents($postulationId);
             $this->postulationDAO->Delete($postulationId);
 
             $this->ShowPostulationListView();
