@@ -9,6 +9,9 @@
                         <?php if (isset($error) && $error == 1) { ?>
                             <span class="text-danger">The tags of Dni and/or email are not available</span>
                         <?php } ?>
+                        <?php if (isset($error) && $error == 2) { ?>
+                            <span class="text-danger">The tags of Fantasy Name and/or cuil are not available</span>
+                        <?php } ?>
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
                                 <h4 class="mb-4">Your Employer Information</h4>
@@ -35,7 +38,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h4 class="mb-4">Your Employer Information</h4>
+                                <h4 class="mb-4">Your Company Information</h4>
                                 <div class="form-group">
                                     <label for="">Fantasy Name</label>
                                     <input type="text" name="fantasyName" value="" class="form-control" required="required">
