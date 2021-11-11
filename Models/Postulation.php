@@ -9,9 +9,10 @@
         private $studentFullName;
         private $postulationDate;
         private $mailSend;
+        private $curriculum;
         private $active;
 
-        public function __construct($postulationId = null, $jobOfferId = null, $studentId = null, $studentFullName = null, $postulationDate = null, $mailSend = null, $active = null)
+        public function __construct($postulationId = null, $jobOfferId = null, $studentId = null, $studentFullName = null, $postulationDate = null, $mailSend = null, $curriculum = null, $active = null)
         {
             $this->postulationId = $postulationId;
             $this->jobOfferId = $jobOfferId;
@@ -19,6 +20,7 @@
             $this->studentFullName = $studentFullName;
             $this->postulationDate = $postulationDate;
             $this->mailSend = $mailSend;
+            $this->curriculum = $curriculum;
             $this->active = $active;
         }
 
@@ -158,6 +160,26 @@
         public function setMailSend($mailSend)
         {
                 $this->mailSend = $mailSend;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of curriculum
+         */ 
+        public function getCurriculum()
+        {
+                return $this->curriculum;
+        }
+
+        /**
+         * Set the value of curriculum
+         *
+         * @return  self
+         */ 
+        public function setCurriculum($curriculum)
+        {
+                $this->curriculum = $curriculum;
 
                 return $this;
         }

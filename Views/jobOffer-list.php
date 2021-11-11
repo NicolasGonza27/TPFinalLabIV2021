@@ -99,6 +99,7 @@
                                 <span class="companyId" data-id="<?=$company->getCompanyId()?>">
                                     <?= $company->getFantasyName() ?>
                                 </span>
+                                <input class="flyer hidden" value="<?= $jobOffer->getFlyer() ?>"/>
                             </td>
                             <td class="text-right">
                                 <form action="<?php echo FRONT_ROOT . "JobOffer/ShowJobOfferView" ?>" method="post" class="mb-0">
@@ -129,7 +130,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <form class="m-20" action="<?= FRONT_ROOT ?>JobOffer/ModifyJobOffer" method="post">
+                <form class="m-20" action="<?= FRONT_ROOT ?>JobOffer/ModifyJobOffer" method="post" enctype="multipart/form-data">
                 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -193,6 +194,11 @@
                     <?php } else { ?>
                         <input class="hidden" name="companyId" value="<?= $employerCompanyId ?>">
                     <?php } ?>
+
+                    <div class="form-group">
+                        <label for="">Flyer Image</label>
+                        <input id="flyer_edit" accept="image/png,image/jpeg" name="flyer" type="file">
+                    </div>
 
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
                 </form>
@@ -263,6 +269,7 @@
                 $("#max_postulations_edit").val($row.find(".maxPostulations").val());
                 $("#job_position_id_edit option[value='"+ $row.find('.jobPositionId').data('id') +"']").attr("selected",true);
                 $("#company_id_edit option[value='"+ $row.find(".companyId").data("id") +"']").attr("selected",true);
+                $("#flyer_edit").val($row.find(".flyer").val());
             }
         );
 
