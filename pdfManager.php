@@ -1,4 +1,6 @@
 <?php
+    require_once('Pdf/fpdf.php');
+    use fpdf as FPDF;
     use DAO\StudentDAO as StudentDAO;
     use DAO\JobOfferDAO as JobOfferDAO;
     use DAO\CompanyDAO as CompanyDAO;
@@ -9,9 +11,9 @@
     use Models\Student as Student;
     use Models\Postulation as Postulation;
            
-    class DocumentManager 
+    class PdfManager 
     {
-        private $dir;
+        private $pdf;
         private $postulationDAO;
         private $studentDAO;
         private $jobOfferDAO;
@@ -21,38 +23,32 @@
 
         public function __construct()
         {
-            $this->dir = VIEWS_PATH . "temp/";
             $this->postulationDAO = new PostulationDAO();
             $this->studentDAO = new StudentDAO();
             $this->jobOfferDAO = new JobOfferDAO();
             $this->companyDAO = new CompanyDAO();
             $this->jobPositionDAO = new JobPositionDAO();
             $this->careerDAO = new CareerDAO();
-
-            if (!file_exists($this->dir)) {
-                mkdir($this->dir);
-            }
+            $this->pdf = new FPDF();
         }
 
-        /**
-         * fileArray array $_FILE capturado
-         * campo string valor name del campo enviado
-         * dir curriculum o flyer
-         */
-        public function setDocument($fileArray,$file)
+        public function getPdf($jobOfferId)
         {
-            $target_dir = $this->dir;
-            $extension = pathinfo($fileArray["name"], PATHINFO_EXTENSION);
+            $postulationList = $this->postulationDAO->GetAllByJobOfferId($jobOfferId);
 
-            $nombre_doc = rand(1000000000,9999999999).".".$extension;
-
-            $fichero_subido = $target_dir . $nombre_doc;
-
-            if (!move_uploaded_file($_FILES[$file]['tmp_name'], $fichero_subido)) {
-                return false;
+            if (!$postulationList) {
+                return;
             }
-                    
-            return $this->dir.$nombre_doc;
+            
+            $this->pdf->AliasNbPages();
+            $this->pdf->AddPage();
+            $this->pdf->SetFont('Arial','',16);
+
+            foreach ($postulationList as $postulation) {
+                $this->pdf->Cell(40, 10, $postulation->getStudentFullName(), '1', '0', 'C', '0');
+            }
+
+            $this->pdf->Output();
         }
     }
 ?>

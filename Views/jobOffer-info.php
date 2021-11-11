@@ -1,11 +1,16 @@
 <?php
     $student = "";
+    $admin = "";
     if (isset($_SESSION["student"])) {
         $student = $_SESSION["student"];
         require_once('student-nav.php');
     }
+    elseif (isset($_SESSION["employer"])) {
+        require_once('employer-nav.php');
+    }
     else {
         require_once('admin-nav.php');
+        $admin = 1;
     }
 ?>
 <main class="py-5">
@@ -16,7 +21,12 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row justify-content-center">
-                        <div class="col-lg-6 white-box">
+                        <div class="col-lg-4 white-box">
+                            <div class="d-flex align-item-center">
+                                <img src="<?= $jobOffer->getFlyer() != "" ? FRONT_ROOT.$jobOffer->getFlyer() : FRONT_ROOT.VIEWS_PATH."temp/no_img.jpg" ?>" style="width: 350px;">
+                            </div>
+                        </div>
+                        <div class="col-lg-8 white-box">
                             <div class="row">
                                 <span class="col-lg-6">Description:</span>
                                 <span class="col-lg-6"><?= $jobOffer->getDescription() ?></span>
@@ -55,15 +65,23 @@
                             </div>
                             <!-- ACA VA LO BUENOOOOOO   -->
                             <?php if ($student != "" && !$already_post && !$no_post_left) { ?>
-                                <div class="d-flex justify-content-end">
-                                    <form action="<?php echo FRONT_ROOT . "Postulation/Add" ?>" method="post" class="row">
+                                <form action="<?php echo FRONT_ROOT . "Postulation/Add" ?>" method="post" enctype="multipart/form-data">
+                                    <div class="d-flex justify-content-between mt-5">
+                                    
                                         <input class="hidden" name="jobOfferId" value="<?= $jobOffer->getJobOfferId() ?>">
                                         <input class="hidden" name="studentId" value="<?= $student->getStudentId() ?>">
                                         <input class="hidden" name="studentFullName" value="<?= ($student->getFirstName() ." ". $student->getLastName()) ?>">
                                         <input class="hidden" name="postulationDate" value="<?= date("Y-m-d") ?>">
-                                        <button type="submit" class="btn btn-success d-block mr-3">Postulate</button>
-                                    </form>
-                                </div>
+
+                                        <div class="">
+                                            <label for="">Insert your Curiculim here</label>
+                                            <input name="curriculum" type="file" >
+                                        </div>
+                                        <div class="">
+                                            <button type="submit" class="btn btn-success d-block mr-3">Postulate</button>
+                                        </div>
+                                    </div>
+                                </form>
                             <?php } elseif ($already_post) {?>
                                 <div class="d-flex justify-content-end">
                                     <span class=""><i class="fas fa-check mr-3"></i>Inscripted</span>
@@ -71,6 +89,14 @@
                             <?php } elseif ($no_post_left) {?>
                                 <div class="d-flex justify-content-end">
                                     <span class=""><i class="fas fa-times mr-3"></i>Inscriptions are full</span>
+                                </div>
+                            <?php } ?>
+                            <?php if ($admin != "") { ?>
+                                <div class="d-flex justify-content-end">
+                                    <form action="<?php echo FRONT_ROOT . "JobOffer/ListPostulationsInPdf" ?>" method="post" class="row">
+                                        <input class="hidden" name="jobOfferId" value="<?= $jobOffer->getJobOfferId() ?>">
+                                        <button type="submit" class="btn d-block mr-3">Get Postulation List (.PDF)</button>
+                                    </form>
                                 </div>
                             <?php } ?>
                         </div>

@@ -9,12 +9,14 @@
 	require "Config/Constants.php";
 	require "mailerTemplates.php";
 	require "documentsManager.php";
+	require "pdfManager.php";
 
 	use Config\Autoload as Autoload;
 	use Config\Router 	as Router;
 	use Config\Request 	as Request;
 	use MeilerTemplate 	as MeilerTemplate;
 	use DocumentManager as DocumentManager;
+	use PdfManager as PdfManager;
 
 	// NO COMENTAR LO DE ARRIBA
 

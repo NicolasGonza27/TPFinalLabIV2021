@@ -9,6 +9,7 @@
     use DAO\PostulationDAO as PostulationDAO;
     use Models\Postulation as Postulation;
     use DAO\StudentDAO as StudentDAO;
+    use DocumentManager;
     use Models\Student as Student;
     use MeilerTemplates;
 
@@ -20,6 +21,7 @@
         private $careerDAO;
         private $postulationDAO;
         private $studentDAO;
+        private $documentManager;
         private $mail;
 
         public function __construct()
@@ -30,6 +32,7 @@
             $this->careerDAO = new CareerDAO();
             $this->postulationDAO = new PostulationDAO();
             $this->studentDAO = new StudentDAO();
+            $this->documentManager = new DocumentManager();
             $this->mail = new MeilerTemplates();
         }
 
@@ -108,22 +111,34 @@
             // }
         }
 
-        public function Add($jobOfferId, $studentId, $studentFullName,  $postulationDate) {
+        public function Add($jobOfferId, $studentId, $studentFullName,  $postulationDate, $curriculum) {
             
             $nuevo_id = rand(100000,999999);
             while($this->postulationDAO->GetOne($nuevo_id) != false) {
                 $nuevo_id = rand(100000,999999);
             }
-            $postulation = new Postulation($nuevo_id,$jobOfferId,$studentId,$studentFullName,$postulationDate,false,true);
+            if ($curriculum["name"] != "") {               
+                $curriculum = $this->documentManager->setDocument($curriculum,"curriculum");
+            }
+            else {
+                $curriculum = "";
+            }
+
+            $postulation = new Postulation($nuevo_id,$jobOfferId,$studentId,$studentFullName,$postulationDate,false,$curriculum,true);
 
             $this->postulationDAO->Add($postulation);
 
             $this->ShowPostulationListStudentView($studentId);
         }
 
-        public function ModifyPostulation($postulationId, $jobOfferId, $studentId, $studentFullName,  $postulationDate) {
+        public function ModifyPostulation($postulationId, $jobOfferId, $studentId, $studentFullName,  $postulationDate, $curriculum) {
             $postulation = new Postulation();
             $postulation = $this->postulationDAO->GetOne($postulationId);
+
+            if ($curriculum["name"] != "") {                
+                $curriculum = $this->documentManager->setDocument($curriculum,"flyer/");
+                $postulation->setCurriculum($curriculum);
+            }
 
             $postulation->setJobOfferId($jobOfferId);
             $postulation->setStudentId($studentId);

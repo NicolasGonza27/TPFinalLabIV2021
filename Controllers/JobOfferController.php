@@ -10,6 +10,7 @@
     use Models\Student as Student;
     use MeilerTemplates;
     use DocumentManager;
+    use PdfManager;
 
 class JobOfferController
     {
@@ -19,6 +20,7 @@ class JobOfferController
         private $careerDAO;
         private $mail;
         private $documentManager;
+        private $pdf;
 
         public function __construct()
         {
@@ -29,6 +31,7 @@ class JobOfferController
             $this->careerDAO = new CareerDAO();
             $this->mail = new MeilerTemplates();
             $this->documentManager = new DocumentManager();
+            $this->pdf = new PdfManager();
         }
 
         public function ShowAddJobOfferView() {
@@ -157,6 +160,17 @@ class JobOfferController
             $this->ShowJobOfferListView();
         }
 
+        public function ListPostulationsInPdf($jobOfferId) {
+            echo "  <script>
+                        window.open('Pdf/".($jobOfferId)."','_blank');
+                    </script>";
+            $this->ShowJobOfferView($jobOfferId);
+        }
+
+        public function Pdf($jobOfferId) {
+            $this->pdf->getPdf($jobOfferId);
+        }
+
         public function Add($description, $publicationDate, $expirationDate,  $requirements, $workload, $maxPostulations, $jobPositionId, $companyId, $flyer) {
 
             $nuevo_id = rand(100000,999999);
@@ -166,8 +180,11 @@ class JobOfferController
             $jobPosition = $this->jobPositionDAO->GetOne($jobPositionId);
             $careerId = $jobPosition->getCareerId();
 
-            if ($flyer) {                
-                $flyer = $this->documentManager->setDocument($flyer,"flyer/");
+            if ($flyer["name"] != "") {               
+                $flyer = $this->documentManager->setDocument($flyer,"flyer");
+            }
+            else {
+                $flyer = "";
             }
 
             $jobOffer = new JobOffer($nuevo_id,$description,$publicationDate,$expirationDate,$requirements,$workload,
@@ -188,6 +205,11 @@ class JobOfferController
             $jobOffer = new JobOffer();
             $jobOffer = $this->jobOfferDAO->GetOne($jobOfferId);
 
+            if ($flyer["name"] != "") {                
+                $flyer = $this->documentManager->setDocument($flyer,"flyer");
+                $jobOffer->setFlyer($flyer);
+            }
+
             $jobOffer->setDescription($description);
             $jobOffer->setPublicationDate($publicationDate);
             $jobOffer->setExpirationDate($expirationDate);
@@ -196,10 +218,14 @@ class JobOfferController
             $jobOffer->setMaxPostulations($maxPostulations);
             $jobOffer->setCareerId($careerId);
             $jobOffer->setJobPositionId($jobPositionId);
-            $jobOffer->setFlyer($flyer);//esto tiene que apliarce para guardar la imagen
             $jobOffer->setCompanyId($companyId);
 
             $this->jobOfferDAO->Modify($jobOffer);
+
+            if (isset($_SESSION['employer'])) {
+                $this->ShowJobOfferListView($_SESSION['employer']->getCompanyId());
+                return;
+            }
 
             $this->ShowJobOfferListView();
         }

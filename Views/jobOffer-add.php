@@ -68,7 +68,7 @@
                                 <?php } ?>
                                 <div class="form-group">
                                     <label for="">Flyer Image</label>
-                                    <input name="flyer" type="file">
+                                    <input name="flyer" type="file" accept="image/png,image/jpeg">
                                 </div>
                             </div>
                         </div>
