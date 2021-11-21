@@ -67,6 +67,9 @@
                 $this->companyDAO->Add($company);
                 $companyList = $this->companyDAO->SearchCompany($fantasyName);
                 require_once(VIEWS_PATH."company-list.php");
+                echo    '<script>
+                            alert("New company saved!");
+                        </script>';
             }
             else {
                 require_once(VIEWS_PATH."company-add.php");

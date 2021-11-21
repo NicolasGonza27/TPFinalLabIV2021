@@ -1,6 +1,7 @@
 <?php
     namespace Controllers;
 
+    use Controllers\JobOfferController as JobOfferController;
     use DAO\JobOfferDAO as JobOfferDAO;
     use DAO\CompanyDAO as CompanyDAO;
     use DAO\JobPositionDAO as JobPositionDAO;
@@ -23,6 +24,7 @@
         private $studentDAO;
         private $documentManager;
         private $mail;
+        private $jobOfferController;
 
         public function __construct()
         {
@@ -34,6 +36,7 @@
             $this->studentDAO = new StudentDAO();
             $this->documentManager = new DocumentManager();
             $this->mail = new MeilerTemplates();
+            $this->jobOfferController = new JobOfferController();
         }
 
         public function ShowAddPostulationView() {
@@ -129,6 +132,9 @@
             $this->postulationDAO->Add($postulation);
 
             $this->ShowPostulationListStudentView($studentId);
+            echo    '<script>
+                        alert("New postulation saved!");
+                    </script>';
         }
 
         public function ModifyPostulation($postulationId, $jobOfferId, $studentId, $studentFullName,  $postulationDate, $curriculum) {
@@ -152,7 +158,13 @@
 
         public function DeletePostulation($postulationId) {
             $this->mail->SendMailDeletedPostulationToStudents($postulationId);
+            $postulation = $this->postulationDAO->GetOne($postulationId);
             $this->postulationDAO->Delete($postulationId);
+
+            if (isset($_SESSION["employer"])) {
+                $this->jobOfferController->ShowJobOfferView($postulation->getJobOfferId());
+                return;
+            }
 
             $this->ShowPostulationListView();
         }

@@ -90,10 +90,10 @@ class EmployerController
 
             $company = new Company($nuevo_id_company,$fantasyName,$cuil,$phoneNumber,$country,$province,$city,$direction,true);
             if ($this->companyDAO->GetOneByFantasyName($fantasyName)) {
-                $error = 1;
+                $error = 2;
             }
             if ($this->companyDAO->GetOneByCuil($cuil)) {
-                $error = 1;
+                $error = 2;
             }
 
             $nuevo_id_access = rand(100000,999999);

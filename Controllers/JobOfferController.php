@@ -14,6 +14,7 @@
 
 class JobOfferController
     {
+        private $postulationDAO;
         private $jobOfferDAO;
         private $companyDAO;
         private $jobPositionDAO;
@@ -41,11 +42,10 @@ class JobOfferController
         }
 
         public function ShowJobOfferView($jobOfferId) {
-            if (!$jobOfferId) {
-
-            }
             $already_post = false;
             $no_post_left = false;
+            $postulationsLista = 0;
+
             if (isset($_SESSION["student"])) {
                 $student = $_SESSION["student"];
                 $postulationStudentList = $this->postulationDAO->GetAllByStudentId($student->getStudentId());
@@ -62,11 +62,20 @@ class JobOfferController
                     }
                 }
             }
+            else {
+                $postulationsLista = $this->postulationDAO->GetAllByJobOfferId($jobOfferId);
+            }
 
             $jobOffer = $this->jobOfferDAO->GetOne($jobOfferId);
             $jobPosition = $this->jobPositionDAO->GetOne($jobOffer->getJobPositionId());
             $career = $this->careerDAO->GetOne($jobPosition->getCareerId());
             $company = $this->companyDAO->GetOne($jobOffer->getCompanyId());
+
+            
+            $jobPositionDAO = $this->jobPositionDAO;
+            $jobOfferDAO = $this->jobOfferDAO;
+            $careerDAO = $this->careerDAO;
+            $companyDAO = $this->companyDAO;
             require_once(VIEWS_PATH."jobOffer-info.php");
         }
 
@@ -161,9 +170,13 @@ class JobOfferController
         }
 
         public function ListPostulationsInPdf($jobOfferId) {
-            echo "  <script>
-                        window.open('Pdf/".($jobOfferId)."','_blank');
-                    </script>";
+            // echo "  <script>
+            //             window.open('Pdf/".($jobOfferId)."','_blank');
+            //         </script>";
+            $this->Pdf($jobOfferId);    
+            echo    '<script>
+                        alert("Document was successfuly saved!");
+                    </script>';
             $this->ShowJobOfferView($jobOfferId);
         }
 
@@ -194,9 +207,16 @@ class JobOfferController
 
             if (isset($_SESSION["employer"])) {
                 $this->ShowJobOfferListView($companyId);
+                echo    '<script>
+                            alert("New job offer saved!");
+                        </script>';
                 return;
             }
+            
             $this->ShowJobOfferListView();
+            echo    '<script>
+                        alert("New job offer saved!");
+                    </script>';
         }
 
         public function ModifyJobOffer($jobOfferId, $description, $publicationDate, $expirationDate,  $requirements, $workload, $maxPostulations, $jobPositionId, $companyId, $flyer) {
