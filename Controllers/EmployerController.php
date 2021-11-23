@@ -44,10 +44,16 @@ class EmployerController
         }
 
         public function checkEmployerEmail($email, $password) {
+            $error = 0;
             $employer = $this->employerDAO->GetOneByEmail($email);
+            if (!$employer) {
+                $error = 1;
+                require_once(VIEWS_PATH."home.php");
+                return;
+            }
+
             $access = $this->accessDAO->GetOneByStudentId($employer->getEmployerId());
             
-            $error = 0;
             if (!$employer || !$access) {
                 $error = 1;
                 require_once(VIEWS_PATH."home.php");

@@ -40,15 +40,16 @@
         }
 
         public function checkStudentEmail($email, $password) {
-            $student = $this->studentDAO->GetOneByEmail($email);
-            $access = $this->accessDAO->GetOneByStudentId($student->getStudentId());
-            
             $error = 0;
+
+            $student = $this->studentDAO->GetOneByEmail($email);
             if (!$student) {
                 $error = 1;
                 require_once(VIEWS_PATH."home.php");
                 return;
             }
+            $access = $this->accessDAO->GetOneByStudentId($student->getStudentId());
+            
             if (!$access) {
                 $nuevo_id = rand(100000,999999);
                 while($this->accessDAO->GetOne($nuevo_id) != false) {

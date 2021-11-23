@@ -37,7 +37,7 @@
             $postulationList = $this->postulationDAO->GetAllByJobOfferId($jobOfferId);
 
             if (!$postulationList) {
-                return;
+                return 0;
             }
             
             $jobOffer = $this->jobOfferDAO->GetOne($jobOfferId);
@@ -76,6 +76,8 @@
 
             $nuevo_pdf_id = rand(1000000000,9999999999);
             $this->pdf->Output('F','pdfPostulationList/'.$nuevo_pdf_id.'.pdf');
+
+            return 1;
         }
     }
 ?>
