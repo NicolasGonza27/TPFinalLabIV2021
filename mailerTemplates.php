@@ -41,6 +41,9 @@
             $postulationList = $this->postulationDAO->GetAllByJobOfferId($jobOfferId);
             $mail = $this->mail;
 
+            if (!$postulationList) {
+                return;
+            }
             foreach ($postulationList as $postulation) {
                 if ($postulation->getMailSend()) {
                     continue;

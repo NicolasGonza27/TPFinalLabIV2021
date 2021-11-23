@@ -170,18 +170,22 @@ class JobOfferController
         }
 
         public function ListPostulationsInPdf($jobOfferId) {
+            $texto = "Document was successfuly saved!";
             // echo "  <script>
             //             window.open('Pdf/".($jobOfferId)."','_blank');
             //         </script>";
-            $this->Pdf($jobOfferId);    
-            echo    '<script>
-                        alert("Document was successfuly saved!");
-                    </script>';
+            if (!($this->Pdf($jobOfferId))) {
+                $texto = "Can`t download an empty list!";
+            }
+            echo    ('<script>
+                        alert("'.($texto).'");
+                    </script>');
+            
             $this->ShowJobOfferView($jobOfferId);
         }
 
         public function Pdf($jobOfferId) {
-            $this->pdf->getPdf($jobOfferId);
+            return $this->pdf->getPdf($jobOfferId);
         }
 
         public function Add($description, $publicationDate, $expirationDate,  $requirements, $workload, $maxPostulations, $jobPositionId, $companyId, $flyer) {
